@@ -6,16 +6,17 @@ class Player {
 
 	public:
 
-			void setArmies(int a);
+			void setArmies(/*int a*/);
 			void setPlayer(int d);
 			void addCountry();
 
 			int getId();
-			int getArmies();
+			void getArmies();
+			int getPlayer();
 
 			Player(){
-				PlayerId++;
-				setarmies();
+				playerId++;
+				setArmies();
 				cout << "A player has entered the game. His Player ID is " << getId() << endl;
 			}
 
@@ -28,10 +29,10 @@ class Player {
 
 };
 
-Player::getPlayer(){
+int Player::getPlayer(){
 	return playerId;
 }
 
-Player::setArmies(){
+void Player::setArmies(){
 	armiesAvailable = 4;
 }
