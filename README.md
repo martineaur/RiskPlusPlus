@@ -1,2 +1,2 @@
-# RiskPlusPlus
-C++ Risk final final project
+# RiskGame
+Final Project for OOP
