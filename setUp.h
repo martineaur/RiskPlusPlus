@@ -1,3 +1,4 @@
+/*
 //GAMME SETUP
 
 #include <iostream>
@@ -49,18 +50,18 @@ void setup(){
 	//what if two players roll same number?
 	//player who rolled number first goes first
 	//set up players in a singularyly linked circular list
-	/*
+
 		In order to be able to go through player turn rotation, this sets up the player objects into a singularyly linked circular list. The first step is to determine where each 
 		player will fall in the list based on the roll they made in the previous segment. Once that is determined, a head pointer will point to the player who will go first, and
 		the other players will be placed accourdingly. Initially, the player which the head pointer is pointing to goes next. After a player completes there turn, determining who 
 		goes next is simply looking at the current player's next pointer
-	*/
 	
 	
 	
 	
 	
 	
+
 	//claiming of territories
 	
 	
@@ -69,3 +70,4 @@ void setup(){
 	
 }
 
+*/

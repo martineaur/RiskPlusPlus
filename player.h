@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -6,7 +7,7 @@ class Player {
 
 	public:
 
-			void setArmies(/*int a*/);
+			void setArmies(int a);
 			void setPlayer(int d);
 			void addCountry();
 
@@ -36,3 +37,4 @@ int Player::getPlayer(){
 void Player::setArmies(){
 	armiesAvailable = 4;
 }
+*/

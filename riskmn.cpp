@@ -24,3 +24,4 @@ int main() {
 
 	return 0;
 }
+//fuck this mother funking shit. Im sick of dealing with the bull shit.
