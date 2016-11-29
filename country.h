@@ -33,7 +33,7 @@ class Country {
 
 	private:
 		string name;
-		int owner; //need to correlate an owner with each country
+		Player* owner; //need to correlate an owner with each country
 		int weight;
 		Country *neighborPtr[6];
 };

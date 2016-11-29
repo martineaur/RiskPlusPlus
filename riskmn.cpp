@@ -19,8 +19,8 @@ int main() {
 
 	GameBoard();
 
-	//Player P1();
-	//Player P2();
+	Player P1();
+	Player P2();
 
 	return 0;
 }

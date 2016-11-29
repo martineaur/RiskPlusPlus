@@ -1,40 +1,41 @@
-/*
 #include <iostream>
 #include <vector>
 using namespace std;
+
 
 class Player {
 
 	public:
 
 			void setArmies(int a);
-			void setPlayer(int d);
 			void addCountry();
 
 			int getId();
+			void setArmies();
 			void getArmies();
 			int getPlayer();
+			void givePlayerControl()
 
 			Player(){
+				static int playerId = 0;
 				playerId++;
 				setArmies();
-				cout << "A player has entered the game. His Player ID is " << getId() << endl;
+				cout << "A player has entered the game. His Player ID is " << playerId << endl;
 			}
 
 	private:
 
-			static int playerId = 1;
 			int armiesAvailable;
-			vector<Country*> coutriesControlled;
+			vector<int> coutriesControlled;
+			//an integer between 0 and 9 that uses riskMap to find the country
 
 
 };
 
-int Player::getPlayer(){
-	return playerId;
-}
-
 void Player::setArmies(){
 	armiesAvailable = 4;
 }
-*/
+
+void Player::givePlayerControl() {
+
+}
