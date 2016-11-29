@@ -12,13 +12,23 @@ class GameBoard {
 			initiateCountries();
 			createBorders();
 
-			for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+/*			for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 				cout << it->first + 1 << ". "<< it->second->getName() << endl;
 			}
 
 			for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 				it->second->printNeighbors();
-			}
+			}*/
+
+			Player player1;
+			Player player2;
+
+			Player players[2] = {player1, player2};
+
+			distributeCountries(player1, player2);
+
+
+
 
 		}
 
@@ -31,6 +41,7 @@ class GameBoard {
 	public:
 		void initiateCountries();
 		void createBorders();
+		void distributeCountries(Player &player1, Player &player2);
 	//making a second change
 	//I made a change
 	//change made on github
@@ -65,6 +76,12 @@ void GameBoard::initiateCountries() {
 
 }
 
+/*
+ * This function reads 9 files, one for each country. Each file has a list of countries
+ * which border that particular country. The file opens and reads through all the country names,
+ * adding them to the array of type Country pointers for that country. So each country's array
+ * of bordering countries will be filled by this function.
+ */
 void GameBoard::createBorders() {
 
 	//THIS NEEDS TO BE OPTIMIZED -- THIS IS HORRIBLE
@@ -252,8 +269,59 @@ void GameBoard::createBorders() {
 			}
 		}
 	}
+}
+
+void GameBoard::distributeCountries(Player &play1, Player &play2) {
+	int choice;
+	int counter = 1;
+
+	cout << "Welcome message...." << endl;
+
+	for (int i = 0; i < riskMap.size(); i++) {
+
+		if (counter % 2 != 0) {
+			cout << "Player 1 please choose a country" << endl;
+
+			//print out available countries
 
 
+			for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+				if(!it->second->isOwned()) {
+					cout <<"(" << it->first + 1 << ") " <<  it->second->getName() << endl;
+				}
+			}
+
+			cin >> choice;
+			choice--;
+
+			riskMap.find(choice)->second->setOwner(play1.getId());
+			play1.becomeOwner(riskMap.find(choice)->second);
+			//play1.printControlledCountries();
+
+
+		} else {
+
+			cout << endl << "Player 2 please select a country" << endl;
+			for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+				if(!it->second->isOwned()) {
+					cout <<"(" << it->first + 1 << ") " <<  it->second->getName() << endl;
+				}
+			}
+
+			cin >> choice;
+			choice--;
+
+			riskMap.find(choice)->second->setOwner(play2.getId());
+			play2.becomeOwner(riskMap.find(choice)->second);
+		}
+
+		counter++;
+	}
+
+	cout << endl << "Player 1 controls: " << endl;
+	play1.printControlledCountries();
+	cout << endl << "Player 2 controls: " << endl;
+	play2.printControlledCountries();
 
 
 }

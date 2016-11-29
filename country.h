@@ -30,12 +30,18 @@ class Country {
 		void pairNeighborPtr(Country *neighbors);
 		void print();
 		void assignCountries();
-
 		void printNeighbors();
+
+
+		void setOwner(int PlayId);
+		int getOwner();
+
+		bool isOwned();
 
 	private:
 		string name;
-		Player* owner; //need to correlate an owner with each country
+		//Player* owner; //need to correlate an owner with each country
+		int owner;
 		int weight;
 		Country *neighborPtr[6];
 };
@@ -77,6 +83,23 @@ void Country::printNeighbors() {
 		if(neighborPtr[i] != 0) {
 			cout << "Neighbor " << i+1 << ": " << neighborPtr[i]->getName() << endl;
 		}
+	}
+}
+
+void Country::setOwner(int playId) {
+	owner = playId;
+}
+
+int Country::getOwner() {
+	return owner;
+}
+
+bool Country::isOwned() {
+	if (owner == 1 || owner == 2) {
+		return true;
+	}
+	else {
+		return false;
 	}
 }
 
