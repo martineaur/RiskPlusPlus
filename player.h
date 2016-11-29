@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "country.h"
 using namespace std;
 
 
@@ -14,20 +15,21 @@ class Player {
 			void setArmies();
 			void getArmies();
 			int getPlayer();
-			void givePlayerControl()
+			void givePlayerControl();
 
 			Player(){
-				static int playerId = 0;
-				playerId++;
+				static int p = 0;
+				p++;
+				playerId = p;
 				setArmies();
 				cout << "A player has entered the game. His Player ID is " << playerId << endl;
 			}
 
 	private:
-
+			int playerId;
 			int armiesAvailable;
-			vector<int> coutriesControlled;
-			//an integer between 0 and 9 that uses riskMap to find the country
+			vector<Country*> coutriesControlled;
+			//an integer between 0 and 8 that uses riskMap to find the country
 
 
 };
@@ -37,5 +39,7 @@ void Player::setArmies(){
 }
 
 void Player::givePlayerControl() {
-
+	int cid;
+	cout << "Please select the number that corresponds to the country you wish to control" << endl;
+	cin >> cid;
 }

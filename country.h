@@ -8,8 +8,9 @@
 #include <iostream>
 #include <string>
 #include <map>
-
 using namespace std;
+
+class Player;
 
 class Country {
 
@@ -28,6 +29,7 @@ class Country {
 		void initializeNeighborsPtr();
 		void pairNeighborPtr(Country *neighbors);
 		void print();
+		void assignCountries();
 
 		void printNeighbors();
 
@@ -77,6 +79,5 @@ void Country::printNeighbors() {
 		}
 	}
 }
-
 
 

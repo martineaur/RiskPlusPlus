@@ -22,8 +22,11 @@ class GameBoard {
 
 		}
 
-	private:
 		map <int, Country*> riskMap;
+
+	private:
+
+
 
 	public:
 		void initiateCountries();

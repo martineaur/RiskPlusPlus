@@ -9,19 +9,23 @@
 #include <map>
 #include <fstream>
 #include <stdlib.h>
+#include <cmath>
+//#include "setUp.h"
 #include "player.h"
-#include "country.h"
 #include "gameBoard.h"
+
+
 
 using namespace std;
 
 int main() {
 
-	GameBoard();
+	GameBoard g;
 
-	Player P1();
-	Player P2();
+	Player p1;
+	Player p2;
+
+
 
 	return 0;
 }
-//fuck this mother funking shit. Im sick of dealing with the bull shit.
