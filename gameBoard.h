@@ -40,6 +40,7 @@ class GameBoard {
 		void createBorders();
 		void distributeCountries(Player &player1, Player &player2);
 		void distributeArmies(Player &player1, Player &player2);
+		void takeTurn(Player &player1, Player &player2);
 	//making a second change
 	//I made a change
 	//change made on github
@@ -290,7 +291,7 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 					cout <<"(" << it->first + 1 << ") " <<  it->second->getName() << endl;
 				}
 			}
-
+			cout << endl;
 			cin >> choice;
 			choice--;
 
@@ -308,7 +309,7 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 					cout <<"(" << it->first + 1 << ") " <<  it->second->getName() << endl;
 				}
 			}
-
+			cout << endl;
 			cin >> choice;
 			choice--;
 
@@ -321,11 +322,13 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 	}
 
 	cout << endl << "Player 1 controls: " << endl;
-	play1.printControlledCountries();
 	cout << "ARMIES AVAILABLE: " << play1.getArmiesAvailable() << endl;
+	play1.printControlledCountries();
+
 	cout << endl << "Player 2 controls: " << endl;
-	play2.printControlledCountries();
 	cout << "ARMIES AVAILABLE: " << play2.getArmiesAvailable() << endl;
+	play2.printControlledCountries();
+
 }
 
 void GameBoard::distributeArmies(Player &play1, Player &play2) {
@@ -334,13 +337,15 @@ void GameBoard::distributeArmies(Player &play1, Player &play2) {
 	while((play1.getArmiesAvailable() + play2.getArmiesAvailable()) != 0) {
 
 			if ((counter % 2 != 0)&&(play1.getArmiesAvailable() != 0)) {
-				cout << "Player 1 please choose a country to place one more army in" << endl;
+				cout << endl << "Player 1 please choose a country to place one more army in" << endl;
 				for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 								if(it->second->getOwner() == play1.getId()) {
 									cout <<"(" << it->first + 1 << ") " <<  it->second->getName() << ": " << it->second->getOccupiedArmies() << endl;
 								}
 							}
+				cout << endl;
 				cin >> choice;
+				cout << endl;
 				choice--;
 
 				play1.giveArmyToCountry(riskMap.find(choice)->second);
@@ -348,7 +353,7 @@ void GameBoard::distributeArmies(Player &play1, Player &play2) {
 			}
 
 			else if((counter % 2 == 0)&&(play2.getArmiesAvailable() != 0)){
-				cout << "Player 2 please choose a country to place one more army in"
+				cout << endl << "Player 2 please choose a country to place one more army in"
 						<< endl;
 				for (map<int, Country*>::const_iterator it = riskMap.begin();
 						it != riskMap.end(); ++it) {
@@ -358,7 +363,9 @@ void GameBoard::distributeArmies(Player &play1, Player &play2) {
 								<< it->second->getOccupiedArmies() << endl;
 					}
 				}
+				cout << endl;
 				cin >> choice;
+				cout << endl;
 				choice--;
 
 				play2.giveArmyToCountry(riskMap.find(choice)->second);
@@ -368,5 +375,19 @@ void GameBoard::distributeArmies(Player &play1, Player &play2) {
 	}
 }
 
+void GameBoard::takeTurn(Player &player1, Player &player2){
 
+	//Give player three armies to the player taking the turn.
+
+	//Make the player place their armies into a territory that is theirs
+	//if the territory is not theirs, warn the user
+
+	//once all new armies have been placed, allow the user to attack (if they want)
+
+	//once the player is done attacking, allow the user to manuever their armies into postition
+	//if they wish to go into a territory that is not in their control, warn the user
+	//if the a user makes a move that would not leave any armies in a controlled territory,
+	//do not allow
+
+}
 

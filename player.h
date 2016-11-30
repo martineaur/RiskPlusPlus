@@ -74,7 +74,7 @@ void Player::becomeOwner(Country* ctry) {
 void Player::printControlledCountries() {
 
 	for (vector<Country*>::const_iterator it = countriesControlled.begin(); it != countriesControlled.end(); ++it) {
-		cout << (*it)->getName() << " " << (*it)->getOccupiedArmies() << " armies" << endl;
+		cout << (*it)->getName() << ": " << (*it)->getOccupiedArmies() << " armies" << endl;
 
 	}
 
