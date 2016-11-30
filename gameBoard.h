@@ -26,10 +26,6 @@ class GameBoard {
 			Player players[2] = {player1, player2};
 
 			distributeCountries(player1, player2);
-
-
-
-
 		}
 
 		map <int, Country*> riskMap;
@@ -42,6 +38,7 @@ class GameBoard {
 		void initiateCountries();
 		void createBorders();
 		void distributeCountries(Player &player1, Player &player2);
+		void distributeArmies(Player &player1, Player &player2);
 	//making a second change
 	//I made a change
 	//change made on github
@@ -96,6 +93,8 @@ void GameBoard::createBorders() {
 	fstream westUSABorders;
 
 	string border;
+
+	//ADD VENEZUELA
 
 
 	//ALASKA BORDERS
@@ -296,6 +295,7 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 
 			riskMap.find(choice)->second->setOwner(play1.getId());
 			play1.becomeOwner(riskMap.find(choice)->second);
+			play1.giveArmyToCountry(riskMap.find(choice)->second);
 			//play1.printControlledCountries();
 
 
@@ -313,6 +313,7 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 
 			riskMap.find(choice)->second->setOwner(play2.getId());
 			play2.becomeOwner(riskMap.find(choice)->second);
+			play2.giveArmyToCountry(riskMap.find(choice)->second);
 		}
 
 		counter++;
@@ -320,8 +321,16 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 
 	cout << endl << "Player 1 controls: " << endl;
 	play1.printControlledCountries();
+	cout << "ARMIES AVAILABLE: " << play1.getArmiesAvailable() << endl;
 	cout << endl << "Player 2 controls: " << endl;
 	play2.printControlledCountries();
+	cout << "ARMIES AVAILABLE: " << play2.getArmiesAvailable() << endl;
+}
+
+void GameBoard::distributeArmies(Player &play1, Player &play2) {
 
 
 }
+
+
+

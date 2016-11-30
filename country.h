@@ -18,6 +18,7 @@ class Country {
 		Country(string nm) {
 			setName(nm);
 			initializeNeighborsPtr();
+			setOccupiedArmies();
 		}
 
 		~Country() {
@@ -26,15 +27,18 @@ class Country {
 	public:
 		void setName(string nm);
 		string getName();
-		void initializeNeighborsPtr();
-		void pairNeighborPtr(Country *neighbors);
-		void print();
-		void assignCountries();
-		void printNeighbors();
-
-
 		void setOwner(int PlayId);
 		int getOwner();
+		void setOccupiedArmies();
+		//overloading
+		void setOccupiedArmies(int arms);
+		int getOccupiedArmies();
+
+
+		void initializeNeighborsPtr();
+		void pairNeighborPtr(Country *neighbors);
+		void printNeighbors();
+
 
 		bool isOwned();
 
@@ -43,6 +47,7 @@ class Country {
 		//Player* owner; //need to correlate an owner with each country
 		int owner;
 		int weight;
+		int occupiedArmies;
 		Country *neighborPtr[6];
 };
 
@@ -55,8 +60,17 @@ string Country::getName() {
 	return name;
 }
 
-void Country::print() {
+void Country::setOccupiedArmies() {
+	occupiedArmies = 0;
+}
 
+//overload setOccupiedArmies function
+void Country::setOccupiedArmies(int arms) {
+	occupiedArmies = occupiedArmies + arms;
+}
+
+int Country::getOccupiedArmies() {
+	return occupiedArmies;
 }
 
 void Country::pairNeighborPtr(Country *neighbors) {
