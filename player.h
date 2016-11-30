@@ -70,3 +70,5 @@ void Player::printControlledCountries() {
 		}
 
 	}
+
+//crying over a bowl of ramen while trying to chug down a redbull
