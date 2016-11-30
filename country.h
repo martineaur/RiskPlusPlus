@@ -31,7 +31,7 @@ class Country {
 		int getOwner();
 		void setOccupiedArmies();
 		//overloading
-		void setOccupiedArmies(int arms);
+		void addArmies(int arms);
 		int getOccupiedArmies();
 
 
@@ -65,7 +65,7 @@ void Country::setOccupiedArmies() {
 }
 
 //overload setOccupiedArmies function
-void Country::setOccupiedArmies(int arms) {
+void Country::addArmies(int arms) {
 	occupiedArmies = occupiedArmies + arms;
 }
 

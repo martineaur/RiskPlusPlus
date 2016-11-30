@@ -7,7 +7,7 @@ class GameBoard {
 
 
 	public:
-		GameBoard() {
+		GameBoard() {//Constructor for setting up the game board
 			//default constructor
 			initiateCountries();
 			createBorders();
@@ -26,6 +26,7 @@ class GameBoard {
 			Player players[2] = {player1, player2};
 
 			distributeCountries(player1, player2);
+			distributeArmies(player1, player2);
 		}
 
 		map <int, Country*> riskMap;
@@ -279,7 +280,7 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 	for (int i = 0; i < riskMap.size(); i++) {
 
 		if (counter % 2 != 0) {
-			cout << "Player 1 please choose a country" << endl;
+			cout << endl << "Player 1 please choose a country" << endl;
 
 			//print out available countries
 
@@ -328,8 +329,43 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 }
 
 void GameBoard::distributeArmies(Player &play1, Player &play2) {
+	int choice;
+	int counter = 1;
+	while((play1.getArmiesAvailable() + play2.getArmiesAvailable()) != 0) {
 
+			if ((counter % 2 != 0)&&(play1.getArmiesAvailable() != 0)) {
+				cout << "Player 1 please choose a country to place one more army in" << endl;
+				for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+								if(it->second->getOwner() == play1.getId()) {
+									cout <<"(" << it->first + 1 << ") " <<  it->second->getName() << ": " << it->second->getOccupiedArmies() << endl;
+								}
+							}
+				cin >> choice;
+				choice--;
 
+				play1.giveArmyToCountry(riskMap.find(choice)->second);
+				play1.printControlledCountries();
+			}
+
+			else if((counter % 2 == 0)&&(play2.getArmiesAvailable() != 0)){
+				cout << "Player 2 please choose a country to place one more army in"
+						<< endl;
+				for (map<int, Country*>::const_iterator it = riskMap.begin();
+						it != riskMap.end(); ++it) {
+					if (it->second->getOwner() == play2.getId()) {
+						cout << "(" << it->first + 1 << ") "
+								<< it->second->getName() << ": "
+								<< it->second->getOccupiedArmies() << endl;
+					}
+				}
+				cin >> choice;
+				choice--;
+
+				play2.giveArmyToCountry(riskMap.find(choice)->second);
+				play2.printControlledCountries();
+			}
+		counter++;
+	}
 }
 
 
