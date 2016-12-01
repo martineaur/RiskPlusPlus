@@ -13,6 +13,7 @@ class Player {
 
 			int getId();
 			void setArmiesAvailable();
+			void setArmiesAvailable(int a);
 			int getArmiesAvailable();
 			int getPlayer();
 			void becomeOwner(Country* ctry);
@@ -48,6 +49,10 @@ void Player::setArmiesAvailable(){
 	armiesAvailable = 8;
 }
 
+void Player::setArmiesAvailable(int a){
+	armiesAvailable += a;
+}
+
 int Player::getArmiesAvailable() {
 	return armiesAvailable;
 }
@@ -74,7 +79,7 @@ void Player::becomeOwner(Country* ctry) {
 void Player::printControlledCountries() {
 
 	for (vector<Country*>::const_iterator it = countriesControlled.begin(); it != countriesControlled.end(); ++it) {
-		cout << (*it)->getName() << " " << (*it)->getOccupiedArmies() << " armies" << endl;
+		cout << (*it)->getName() << ": " << (*it)->getOccupiedArmies() << " armies" << endl;
 
 	}
 

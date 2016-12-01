@@ -22,10 +22,5 @@ int main() {
 
 	GameBoard g;
 
-/*	Player p1;
-	Player p2;*/
-
-
-
 	return 0;
 }

@@ -11,7 +11,7 @@
 #include <vector>
 using namespace std;
 
-class Player;
+//class Player;
 
 class Country {
 
@@ -46,6 +46,7 @@ class Country {
 	private:
 		string name;
 		//Player* owner; //need to correlate an owner with each country
+		//Add a country identifier to help print controlled countries for each player
 		int owner;
 		int weight;
 		int occupiedArmies;
