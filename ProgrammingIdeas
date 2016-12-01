@@ -1,0 +1,12 @@
+/*
+Create a status function that prints the current status of the gameboard (who controls what,
+how many armies are in each country, etc.)
+
+attack function:
+
+will have a loop that will circulate until the user says so
+
+manuever function:
+
+Will have a loop that will circulate until the user says so
+*/

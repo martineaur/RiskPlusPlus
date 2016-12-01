@@ -27,6 +27,8 @@ class GameBoard {
 
 			distributeCountries(player1, player2);
 			distributeArmies(player1, player2);
+
+			takeTurn(player1);
 		}
 
 		map <int, Country*> riskMap;
@@ -40,7 +42,9 @@ class GameBoard {
 		void createBorders();
 		void distributeCountries(Player &player1, Player &player2);
 		void distributeArmies(Player &player1, Player &player2);
-		void takeTurn(Player &player1, Player &player2);
+		void takeTurn(Player &player);
+		void attack(Player &player);
+		void manueverTroops(Player &player);
 	//making a second change
 	//I made a change
 	//change made on github
@@ -375,7 +379,7 @@ void GameBoard::distributeArmies(Player &play1, Player &play2) {
 	}
 }
 
-void GameBoard::takeTurn(Player &player1, Player &player2){
+void GameBoard::takeTurn(Player &player) {
 
 	//Give player three armies to the player taking the turn.
 
@@ -389,5 +393,94 @@ void GameBoard::takeTurn(Player &player1, Player &player2){
 	//if the a user makes a move that would not leave any armies in a controlled territory,
 	//do not allow
 
+	int placementChoice;
+	char attackChoice;
+	bool attackMenu = 1;
+
+	player.setArmiesAvailable(3);
+
+	while (player.getArmiesAvailable() != 0) {
+		cout << "Please select country you wish to put an army in" << endl << endl;
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
+			if (it->second->getOwner() == player.getId()) {
+				cout << "(" << it->first + 1 << ") " << it->second->getName()
+						<< ": " << it->second->getOccupiedArmies() << endl;
+			}
+		}
+
+		cin >> placementChoice;
+		placementChoice--;
+
+		player.giveArmyToCountry(riskMap.find(placementChoice)->second);
+		player.printControlledCountries();
+
+		while (attackMenu) {
+			cout << "Do you wish to attack (Y/N)?" << endl << endl;
+			cin >> attackChoice;
+
+			switch (attackChoice) {
+			case 'Y':
+			case 'y':
+					attack(player);
+					break;
+
+			case 'N':
+			case 'n':
+				attackMenu = 0;
+				break;
+			default:
+				cin.clear();
+				cin.ignore();
+				cout << "Invalid selection" << endl;
+				break;
+			}
+
+		}
+
+		manueverTroops(player);
+
+	}
+
 }
 
+void GameBoard::attack(Player &player){
+/*	int choice;
+
+	cout << "Please select a country to attack" << endl << endl;
+
+	for (map<int, Country*>::const_iterator it = riskMap.begin();
+			it != riskMap.end(); ++it) {
+		if (it->second->getOwner() == player.getId()) {
+			for (int i = 0; i < 6; i++) {
+
+			}
+		}
+	}*/
+}
+
+void GameBoard::manueverTroops(Player &player){
+
+/*	int moveFrom;
+	int moveTo;
+
+	cout << "Please select a country to move armies from" << endl << endl;
+	for (map<int, Country*>::const_iterator it = riskMap.begin();it != riskMap.end(); ++it) {
+				if (it->second->getOwner() == player.getId()) {
+					cout << "(" << it->first + 1 << ") " << it->second->getName << it->second->getOccupiedArmies() << endl;
+
+					}
+				}
+	cout << endl;
+
+	cin >> moveFrom;
+	moveFrom--;
+
+	cout << "Please select a country to move your armies to" << endl << endl;
+	for(int i = 0; i < 6; i++){
+		if(riskMap.find(moveFrom)->second->neighborPtr[i]->getOwner() == player.getId()){
+			cout << riskMap.find()
+		}
+
+}*/
+	}

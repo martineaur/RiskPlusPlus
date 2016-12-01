@@ -13,6 +13,7 @@ class Player {
 
 			int getId();
 			void setArmiesAvailable();
+			void setArmiesAvailable(int a);
 			int getArmiesAvailable();
 			int getPlayer();
 			void becomeOwner(Country* ctry);
@@ -46,6 +47,10 @@ int Player::getId() {
 
 void Player::setArmiesAvailable(){
 	armiesAvailable = 8;
+}
+
+void Player::setArmiesAvailable(int a){
+	armiesAvailable += a;
 }
 
 int Player::getArmiesAvailable() {
