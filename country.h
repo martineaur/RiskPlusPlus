@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 using namespace std;
 
 class Player;
@@ -17,7 +18,7 @@ class Country {
 	public:
 		Country(string nm) {
 			setName(nm);
-			initializeNeighborsPtr();
+			//initializeNeighborsPtr();
 			setOccupiedArmies();
 		}
 
@@ -36,7 +37,7 @@ class Country {
 
 
 		void initializeNeighborsPtr();
-		void pairNeighborPtr(Country *neighbors);
+		void pairNeighbor(Country *neighbors);
 		void printNeighbors();
 
 
@@ -48,7 +49,8 @@ class Country {
 		int owner;
 		int weight;
 		int occupiedArmies;
-		Country *neighborPtr[6];
+		vector<Country*> neighbors;
+		//Country *neighborPtr[6];
 };
 
 
@@ -73,31 +75,8 @@ int Country::getOccupiedArmies() {
 	return occupiedArmies;
 }
 
-void Country::pairNeighborPtr(Country *neighbors) {
-
-	for (int i = 0; i < 6; i++) {
-		if (this->neighborPtr[i] == 0) {
-			neighborPtr[i] = neighbors;
-			return;
-		}
-	}
-
-}
-
-void Country::initializeNeighborsPtr() {
-	for (int i = 0; i < 6; i++) {
-		neighborPtr[i] = 0;
-	}
-}
-
-void Country::printNeighbors() {
-
-	cout << endl << this->getName() <<" has the following borders: " << endl;
-	for (int i = 0; i < 6; i++) {
-		if(neighborPtr[i] != 0) {
-			cout << "Neighbor " << i+1 << ": " << neighborPtr[i]->getName() << endl;
-		}
-	}
+void Country::pairNeighbor(Country *ctry) {
+	neighbors.push_back(ctry);
 }
 
 void Country::setOwner(int playId) {

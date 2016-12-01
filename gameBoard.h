@@ -112,7 +112,7 @@ void GameBoard::createBorders() {
 	while(getline(alaskaBorders, border)) {
 		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
-				riskMap[0]->pairNeighborPtr(it->second);
+				riskMap[0]->pairNeighbor(it->second);
 			}
 		}
 	}
@@ -132,7 +132,7 @@ void GameBoard::createBorders() {
 	while(getline(nwtBorders, border)) {
 		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
-				riskMap[1]->pairNeighborPtr(it->second);
+				riskMap[1]->pairNeighbor(it->second);
 			}
 		}
 	}
@@ -151,7 +151,7 @@ void GameBoard::createBorders() {
 	while(getline(albertaBorders, border)) {
 		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
-				riskMap[2]->pairNeighborPtr(it->second);
+				riskMap[2]->pairNeighbor(it->second);
 			}
 		}
 	}
@@ -170,7 +170,7 @@ void GameBoard::createBorders() {
 	while(getline(ontarioBorders, border)) {
 		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
-				riskMap[3]->pairNeighborPtr(it->second);
+				riskMap[3]->pairNeighbor(it->second);
 			}
 		}
 	}
@@ -189,7 +189,7 @@ void GameBoard::createBorders() {
 	while(getline(quebecBorders, border)) {
 		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
-				riskMap[4]->pairNeighborPtr(it->second);
+				riskMap[4]->pairNeighbor(it->second);
 			}
 		}
 	}
@@ -208,7 +208,7 @@ void GameBoard::createBorders() {
 	while(getline(greenlandBorders, border)) {
 		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
-				riskMap[5]->pairNeighborPtr(it->second);
+				riskMap[5]->pairNeighbor(it->second);
 			}
 		}
 	}
@@ -227,7 +227,7 @@ void GameBoard::createBorders() {
 	while(getline(westUSABorders, border)) {
 		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
-				riskMap[6]->pairNeighborPtr(it->second);
+				riskMap[6]->pairNeighbor(it->second);
 			}
 		}
 	}
@@ -246,7 +246,7 @@ void GameBoard::createBorders() {
 	while(getline(eastUSABorders, border)) {
 		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
-				riskMap[7]->pairNeighborPtr(it->second);
+				riskMap[7]->pairNeighbor(it->second);
 			}
 		}
 	}
@@ -265,7 +265,7 @@ void GameBoard::createBorders() {
 	while(getline(centralAmericaBorders, border)) {
 		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
-				riskMap[8]->pairNeighborPtr(it->second);
+				riskMap[8]->pairNeighbor(it->second);
 			}
 		}
 	}
