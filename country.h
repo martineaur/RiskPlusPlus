@@ -31,17 +31,17 @@ class Country {
 		void setOwner(int PlayId);
 		int getOwner();
 		void setOccupiedArmies();
-		//overloading
 		void addArmies(int arms);
+		void subtractArmies(int arms);
+
 		int getOccupiedArmies();
 
 
 		void initializeNeighborsPtr();
 		void pairNeighbor(Country *neighbors);
 		void printNeighbors();
-
-
 		bool isOwned();
+		vector<Country*> neighbors;
 
 	private:
 		string name;
@@ -50,7 +50,6 @@ class Country {
 		int owner;
 		int weight;
 		int occupiedArmies;
-		vector<Country*> neighbors;
 		//Country *neighborPtr[6];
 };
 
@@ -69,7 +68,11 @@ void Country::setOccupiedArmies() {
 
 //overload setOccupiedArmies function
 void Country::addArmies(int arms) {
-	occupiedArmies = occupiedArmies + arms;
+	occupiedArmies += arms;
+}
+
+void Country::subtractArmies(int arms) {
+	occupiedArmies -= arms;
 }
 
 int Country::getOccupiedArmies() {
