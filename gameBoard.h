@@ -445,7 +445,7 @@ void GameBoard::takeTurn(Player &player, Player &player2) {
 	player.setArmiesAvailable(3);
 
 	while (player.getArmiesAvailable() != 0) {
-		cout << "Please select country you wish to put an army in" << endl
+		cout << "Player " << player.getId() << ": please select country you wish to put an army in" << endl
 				<< endl;
 		for (map<int, Country*>::const_iterator it = riskMap.begin();
 				it != riskMap.end(); ++it) {
@@ -463,7 +463,7 @@ void GameBoard::takeTurn(Player &player, Player &player2) {
 	}
 
 	while (attackMenu) {
-		cout << "Do you wish to attack (Y/N)?" << endl << endl;
+		cout << "Player " << player.getId() << ": Do you wish to attack (Y/N)?" << endl << endl;
 		cin >> attackChoice;
 
 		switch (attackChoice) {
@@ -494,7 +494,7 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 	int attackTo;
 	int attackWith;
 
-	cout << "Please select a country to attack from" << endl << endl;
+	cout << "Player " << attacker.getId() << ": please select a country to attack from" << endl << endl;
 	for (map<int, Country*>::const_iterator it = riskMap.begin();
 			it != riskMap.end(); ++it) {
 		if (it->second->getOwner() == attacker.getId()
@@ -514,7 +514,7 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 	cin >> attackFrom;
 	attackFrom--;
 
-	cout << "Please select a country to attack" << endl << endl;
+	cout << "Player " << attacker.getId() << ": please select a country to attack" << endl << endl;
 	for (vector<Country*>::const_iterator itNeighbor =
 			riskMap.find(attackFrom)->second->neighbors.begin();
 			itNeighbor != riskMap.find(attackFrom)->second->neighbors.end();
