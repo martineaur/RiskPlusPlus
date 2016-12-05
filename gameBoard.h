@@ -99,6 +99,7 @@ void GameBoard::createBorders() {
 	fstream ontarioBorders;
 	fstream quebecBorders;
 	fstream westUSABorders;
+	fstream venezuelaBorders;
 
 	string border;
 
@@ -280,6 +281,26 @@ void GameBoard::createBorders() {
 				it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
 				riskMap[8]->pairNeighbor(it->second);
+			}
+		}
+	}
+
+	//VENEZUELA BORDERS
+	if (eastUSABorders.is_open()) {
+	} else {
+		eastUSABorders.open("venezuelaBorders.txt");
+
+		if (eastUSABorders.fail()) {
+			cerr << "Error Opening File" << endl;
+			exit(1);
+		}
+	}
+
+	while (getline(venezuelaBorders, border)) {
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
+			if (it->second->getName() == border) {
+				riskMap[7]->pairNeighbor(it->second);
 			}
 		}
 	}
