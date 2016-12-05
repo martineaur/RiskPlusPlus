@@ -541,19 +541,19 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 		if (loser == 'a') {
 			cout << "Attacker lost " << troops << " armies... but not the war"
 					<< endl;
-			riskMap.find(attackFrom)->second->subtractArmies(troops);
+			riskMap.find(attackFrom)->second->subtractOccupiedArmies(troops);
 		} else if (loser == 'd') {
 			cout << "Defense lost " << troops << "armies... but not the war"
 					<< endl;
-			riskMap.find(attackTo)->second->subtractArmies(troops);
+			riskMap.find(attackTo)->second->subtractOccupiedArmies(troops);
 			if (riskMap.find(attackTo)->second->getOccupiedArmies() == 0) {
 				//give attacker the territory if the defending territory has zero troops
 
 				riskMap.find(attackTo)->second->setOwner(attacker.getId());
 				attacker.becomeOwner(riskMap.find(attackTo)->second);
 				defender.giveUpCountry(riskMap.find(attackTo)->second);
-				riskMap.find(attackTo)->second->addArmies(attackWith);
-				riskMap.find(attackFrom)->second->subtractArmies(attackWith);
+				riskMap.find(attackTo)->second->addOccupiedArmies(attackWith);
+				riskMap.find(attackFrom)->second->subtractOccupiedArmies(attackWith);
 
 			}
 		}
@@ -576,11 +576,11 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 		if (loser == 'a') {
 			cout << "Attacker lost " << troops << " armies... but not the war"
 					<< endl;
-			riskMap.find(attackFrom)->second->subtractArmies(troops);
+			riskMap.find(attackFrom)->second->subtractOccupiedArmies(troops);
 		} else if (loser == 'd') {
 			cout << "Defense lost " << troops << "armies... but not the war"
 					<< endl;
-			riskMap.find(attackTo)->second->subtractArmies(troops);
+			riskMap.find(attackTo)->second->subtractOccupiedArmies(troops);
 
 			if (riskMap.find(attackTo)->second->getOccupiedArmies() == 0) {
 				//give attacker the territory if the defending territory has zero troops
@@ -588,8 +588,8 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 				riskMap.find(attackTo)->second->setOwner(attacker.getId());
 				attacker.becomeOwner(riskMap.find(attackTo)->second);
 				defender.giveUpCountry(riskMap.find(attackTo)->second);
-				riskMap.find(attackTo)->second->addArmies(attackWith);
-				riskMap.find(attackFrom)->second->subtractArmies(attackWith);
+				riskMap.find(attackTo)->second->addOccupiedArmies(attackWith);
+				riskMap.find(attackFrom)->second->subtractOccupiedArmies(attackWith);
 			}
 
 		}
@@ -611,11 +611,11 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 			if (loser == 'a') {
 				cout << "Attacker lost " << troops
 						<< " armies... but not the war" << endl;
-				riskMap.find(attackFrom)->second->subtractArmies(troops);
+				riskMap.find(attackFrom)->second->subtractOccupiedArmies(troops);
 			} else if (loser == 'd') {
 				cout << "Defense lost " << troops << "armies... but not the war"
 						<< endl;
-				riskMap.find(attackTo)->second->subtractArmies(troops);
+				riskMap.find(attackTo)->second->subtractOccupiedArmies(troops);
 
 				if (riskMap.find(attackTo)->second->getOccupiedArmies() == 0) {
 					//give attacker the territory if the defending territory has zero troops
@@ -623,8 +623,8 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 					riskMap.find(attackTo)->second->setOwner(attacker.getId());
 					attacker.becomeOwner(riskMap.find(attackTo)->second);
 					defender.giveUpCountry(riskMap.find(attackTo)->second);
-					riskMap.find(attackTo)->second->addArmies(attackWith);
-					riskMap.find(attackFrom)->second->subtractArmies(
+					riskMap.find(attackTo)->second->addOccupiedArmies(attackWith);
+					riskMap.find(attackFrom)->second->subtractOccupiedArmies(
 							attackWith);
 				}
 
@@ -702,8 +702,8 @@ void GameBoard::manueverTroops(Player &player) {
 					<< endl;
 			cin >> armiesToMove;
 
-			riskMap.find(moveFrom)->second->subtractArmies(armiesToMove);
-			riskMap.find(moveTo)->second->addArmies(armiesToMove);
+			riskMap.find(moveFrom)->second->subtractOccupiedArmies(armiesToMove);
+			riskMap.find(moveTo)->second->addOccupiedArmies(armiesToMove);
 
 			for (map<int, Country*>::const_iterator it = riskMap.begin();
 					it != riskMap.end(); ++it) {
