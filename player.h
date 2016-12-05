@@ -64,7 +64,7 @@ void Player::giveArmyToCountry(Country* ctry) {
 
 	for(vector<Country*>::const_iterator it = countriesControlled.begin(); it != countriesControlled.end(); ++it) {
 		if (*it == ctry) {
-			(*it)->addArmies(1);
+			(*it)->addOccupiedArmies(1);
 		}
 	}
 }
