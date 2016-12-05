@@ -3,21 +3,30 @@
 #include "dice.h"
 using namespace std;
 
+/*
+ * The GameBoard class performs most of the functionality for the entire program. Only one
+ * GameBoard is instantiated from the main function, but every other object in the entire program
+ * are able to interact with each other through this class.
+ *
+ * Once the GameBoard is instantiated, all countries are initiated with one large text file, and
+ * then each object's borders are set up with a corresponding text file for each country. After
+ * this, GameBoard's constructor then instantiates the two players which will play the game. Each
+ * player is passed into a function that allows the players to alternate selecting the countries
+ * that they wish to control. After this, each player owns half of the countries on the map, and
+ * the GameBoard constructor then calls a function that will allow players to place their
+ * available armies in the countries they own. After this, the game finally starts...
+ */
+ //^^^^^^^^^^^^^^^^^^^^^^^^^
+ //TODO: FINISH THIS COMMENT after code is complete
+
 class GameBoard {
 
 public:
-	GameBoard() { //Constructor for setting up the game board
+	GameBoard() {
 		//default constructor
+
 		initiateCountries();
 		createBorders();
-
-		/*			for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
-		 cout << it->first + 1 << ". "<< it->second->getName() << endl;
-		 }
-
-		 for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
-		 it->second->printNeighbors();
-		 }*/
 
 		Player player1;
 		Player player2;
@@ -35,24 +44,15 @@ public:
 private:
 
 public:
+	//comments below for each function
 	void initiateCountries();
 	void createBorders();
 	void distributeCountries(Player &player1, Player &player2);
 	void distributeArmies(Player &player1, Player &player2);
-
 	void printStatus();
-
 	void takeTurn(Player &player1, Player &player2);
 	void attack(Player &player, Player &player2);
 	void manueverTroops(Player &player);
-	//making a second change
-	//I made a change
-	//change made on github
-
-	//Ryan Reid change
-
-	//leo Dos Santosss
-	//Martineau's change
 };
 
 void GameBoard::initiateCountries() {
@@ -87,7 +87,9 @@ void GameBoard::initiateCountries() {
  */
 void GameBoard::createBorders() {
 
-	//THIS NEEDS TO BE OPTIMIZED -- THIS IS HORRIBLE
+	//TODO:
+	//THIS SHOULD BE OPTIMIZED -- THIS IS HORRIBLE
+
 	fstream alaskaBorders;
 	fstream albertaBorders;
 	fstream centralAmericaBorders;
