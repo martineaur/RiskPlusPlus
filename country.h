@@ -41,7 +41,6 @@ class Country {
 		int getOccupiedArmies();
 		void addOccupiedArmies(int arms);
 		void subtractOccupiedArmies(int arms);
-		int getOccupiedArmies();
 		void initializeNeighborsPtr();
 		void pairNeighbor(Country *neighbors);
 		void printNeighbors();
