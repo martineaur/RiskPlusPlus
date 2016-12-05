@@ -10,3 +10,17 @@ manuever function:
 
 Will have a loop that will circulate until the user says so
 */
+
+
+TO DO LIST FOR 12/5/2016
+
+-cout statements for letting the user know which player is taking the turn/attacking
+-error checking
+-general output formatting
+-when you only have 1 army in every territory, you cannot attack
+-cout that you have been given 3 armies at the beginning of each turn
+-oscillation of players
+-winning conditions
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Then the game will be finished, and we can try to tune up the code a bit

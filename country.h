@@ -31,6 +31,7 @@ class Country {
 		void setOwner(int PlayId);
 		int getOwner();
 		void setOccupiedArmies();
+		//overload
 		void addArmies(int arms);
 		void subtractArmies(int arms);
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "country.h"
 using namespace std;
 
@@ -17,6 +18,7 @@ class Player {
 			int getArmiesAvailable();
 			int getPlayer();
 			void becomeOwner(Country* ctry);
+			void giveUpCountry(Country* ctry);
 			void printControlledCountries();
 
 			void giveArmyToCountry(Country* ctry);
@@ -73,6 +75,7 @@ void Player::becomeOwner(Country* ctry) {
 	//set this country pointer equal to that position
 
 	countriesControlled.push_back(ctry);
+	ctry->setOwner(this->getId());
 
 }
 
@@ -86,3 +89,14 @@ void Player::printControlledCountries() {
 }
 
 //crying over a bowl of ramen while trying to chug down a redbull
+
+void Player::giveUpCountry(Country* ctry){
+	/*for(vector<Country*>::const_iterator it = countriesControlled.begin(); it != countriesControlled.end(); ++it){
+		if((*it)->getName() == ctry->getName()){
+			countriesControlled.remove((*it));
+		}
+	}*/
+
+	countriesControlled.erase(std::remove(countriesControlled.begin(), countriesControlled.end(), ctry), countriesControlled.end());
+
+}

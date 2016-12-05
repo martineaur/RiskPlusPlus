@@ -5,49 +5,46 @@ using namespace std;
 
 class GameBoard {
 
+public:
+	GameBoard() { //Constructor for setting up the game board
+		//default constructor
+		initiateCountries();
+		createBorders();
 
-	public:
-		GameBoard() {//Constructor for setting up the game board
-			//default constructor
-			initiateCountries();
-			createBorders();
+		/*			for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+		 cout << it->first + 1 << ". "<< it->second->getName() << endl;
+		 }
 
-/*			for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
-				cout << it->first + 1 << ". "<< it->second->getName() << endl;
-			}
+		 for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+		 it->second->printNeighbors();
+		 }*/
 
-			for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
-				it->second->printNeighbors();
-			}*/
+		Player player1;
+		Player player2;
 
-			Player player1;
-			Player player2;
+		Player players[2] = { player1, player2 };
 
-			Player players[2] = {player1, player2};
+		distributeCountries(player1, player2);
+		distributeArmies(player1, player2);
 
-			distributeCountries(player1, player2);
-			distributeArmies(player1, player2);
+		takeTurn(player1, player2);
+	}
 
-			takeTurn(player1, player2);
-		}
+	map<int, Country*> riskMap;
 
-		map <int, Country*> riskMap;
+private:
 
-	private:
+public:
+	void initiateCountries();
+	void createBorders();
+	void distributeCountries(Player &player1, Player &player2);
+	void distributeArmies(Player &player1, Player &player2);
 
+	void printStatus();
 
-
-	public:
-		void initiateCountries();
-		void createBorders();
-		void distributeCountries(Player &player1, Player &player2);
-		void distributeArmies(Player &player1, Player &player2);
-
-		void printStatus();
-
-		void takeTurn(Player &player1, Player &player2);
-		void attack(Player &player, Player &player2);
-		void manueverTroops(Player &player);
+	void takeTurn(Player &player1, Player &player2);
+	void attack(Player &player, Player &player2);
+	void manueverTroops(Player &player);
 	//making a second change
 	//I made a change
 	//change made on github
@@ -60,25 +57,25 @@ class GameBoard {
 
 void GameBoard::initiateCountries() {
 	//text file:
-		fstream listOfCountries;
-		string countryName;
-		int count = 0;
+	fstream listOfCountries;
+	string countryName;
+	int count = 0;
 
-		if (listOfCountries.is_open()) {}
-		else {
-			listOfCountries.open("northAmericaTest.txt");
+	if (listOfCountries.is_open()) {
+	} else {
+		listOfCountries.open("northAmericaTest.txt");
 
-			if (listOfCountries.fail()) {
-				cerr << "Error Opening File" << endl;
-				exit(1);
-			}
+		if (listOfCountries.fail()) {
+			cerr << "Error Opening File" << endl;
+			exit(1);
 		}
+	}
 
-		while(getline(listOfCountries, countryName)) {
+	while (getline(listOfCountries, countryName)) {
 
-			riskMap[count] = new Country(countryName);
-			count++;
-		}
+		riskMap[count] = new Country(countryName);
+		count++;
+	}
 
 }
 
@@ -105,10 +102,9 @@ void GameBoard::createBorders() {
 
 	//ADD VENEZUELA
 
-
 	//ALASKA BORDERS
-	if (alaskaBorders.is_open()) {}
-	else {
+	if (alaskaBorders.is_open()) {
+	} else {
 		alaskaBorders.open("alaskaBorders.txt");
 
 		if (alaskaBorders.fail()) {
@@ -117,18 +113,18 @@ void GameBoard::createBorders() {
 		}
 	}
 
-	while(getline(alaskaBorders, border)) {
-		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+	while (getline(alaskaBorders, border)) {
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
 				riskMap[0]->pairNeighbor(it->second);
 			}
 		}
 	}
 
-
 	//NORTH WEST TERRITORY BORDERS
-	if (nwtBorders.is_open()) {}
-	else {
+	if (nwtBorders.is_open()) {
+	} else {
 		nwtBorders.open("nwtBorders.txt");
 
 		if (nwtBorders.fail()) {
@@ -137,8 +133,9 @@ void GameBoard::createBorders() {
 		}
 	}
 
-	while(getline(nwtBorders, border)) {
-		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+	while (getline(nwtBorders, border)) {
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
 				riskMap[1]->pairNeighbor(it->second);
 			}
@@ -146,8 +143,8 @@ void GameBoard::createBorders() {
 	}
 
 	//ALBERTA BORDERS
-	if (albertaBorders.is_open()) {}
-	else {
+	if (albertaBorders.is_open()) {
+	} else {
 		albertaBorders.open("albertaBorders.txt");
 
 		if (albertaBorders.fail()) {
@@ -156,8 +153,9 @@ void GameBoard::createBorders() {
 		}
 	}
 
-	while(getline(albertaBorders, border)) {
-		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+	while (getline(albertaBorders, border)) {
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
 				riskMap[2]->pairNeighbor(it->second);
 			}
@@ -165,8 +163,8 @@ void GameBoard::createBorders() {
 	}
 
 	//ONTARIO BORDERS
-	if (ontarioBorders.is_open()) {}
-	else {
+	if (ontarioBorders.is_open()) {
+	} else {
 		ontarioBorders.open("ontarioBorders.txt");
 
 		if (ontarioBorders.fail()) {
@@ -175,8 +173,9 @@ void GameBoard::createBorders() {
 		}
 	}
 
-	while(getline(ontarioBorders, border)) {
-		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+	while (getline(ontarioBorders, border)) {
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
 				riskMap[3]->pairNeighbor(it->second);
 			}
@@ -184,8 +183,8 @@ void GameBoard::createBorders() {
 	}
 
 	//QUEBEC BORDERS
-	if (quebecBorders.is_open()) {}
-	else {
+	if (quebecBorders.is_open()) {
+	} else {
 		quebecBorders.open("quebecBorders.txt");
 
 		if (quebecBorders.fail()) {
@@ -194,8 +193,9 @@ void GameBoard::createBorders() {
 		}
 	}
 
-	while(getline(quebecBorders, border)) {
-		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+	while (getline(quebecBorders, border)) {
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
 				riskMap[4]->pairNeighbor(it->second);
 			}
@@ -203,8 +203,8 @@ void GameBoard::createBorders() {
 	}
 
 	//GREENLAND BORDERS
-	if (greenlandBorders.is_open()) {}
-	else {
+	if (greenlandBorders.is_open()) {
+	} else {
 		greenlandBorders.open("greenlandBorders.txt");
 
 		if (greenlandBorders.fail()) {
@@ -213,8 +213,9 @@ void GameBoard::createBorders() {
 		}
 	}
 
-	while(getline(greenlandBorders, border)) {
-		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+	while (getline(greenlandBorders, border)) {
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
 				riskMap[5]->pairNeighbor(it->second);
 			}
@@ -222,8 +223,8 @@ void GameBoard::createBorders() {
 	}
 
 	//WESTERN UNITED STATES BORDERS
-	if (westUSABorders.is_open()) {}
-	else {
+	if (westUSABorders.is_open()) {
+	} else {
 		westUSABorders.open("westUSABorders.txt");
 
 		if (westUSABorders.fail()) {
@@ -232,8 +233,9 @@ void GameBoard::createBorders() {
 		}
 	}
 
-	while(getline(westUSABorders, border)) {
-		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+	while (getline(westUSABorders, border)) {
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
 				riskMap[6]->pairNeighbor(it->second);
 			}
@@ -241,18 +243,19 @@ void GameBoard::createBorders() {
 	}
 
 	//EASTERN UNITED STATES BORDERS
-	if (eastUSABorders.is_open()) {}
-		else {
-			eastUSABorders.open("eastUSABorders.txt");
+	if (eastUSABorders.is_open()) {
+	} else {
+		eastUSABorders.open("eastUSABorders.txt");
 
-			if (eastUSABorders.fail()) {
-				cerr << "Error Opening File" << endl;
-				exit(1);
-			}
+		if (eastUSABorders.fail()) {
+			cerr << "Error Opening File" << endl;
+			exit(1);
 		}
+	}
 
-	while(getline(eastUSABorders, border)) {
-		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+	while (getline(eastUSABorders, border)) {
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
 				riskMap[7]->pairNeighbor(it->second);
 			}
@@ -260,18 +263,19 @@ void GameBoard::createBorders() {
 	}
 
 	//CENTRAL AMERICA BORDERS
-	if (centralAmericaBorders.is_open()) {}
-		else {
-			centralAmericaBorders.open("centralAmericaBorders.txt");
+	if (centralAmericaBorders.is_open()) {
+	} else {
+		centralAmericaBorders.open("centralAmericaBorders.txt");
 
-			if (centralAmericaBorders.fail()) {
-				cerr << "Error Opening File" << endl;
-				exit(1);
-			}
+		if (centralAmericaBorders.fail()) {
+			cerr << "Error Opening File" << endl;
+			exit(1);
 		}
+	}
 
-	while(getline(centralAmericaBorders, border)) {
-		for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
+	while (getline(centralAmericaBorders, border)) {
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
 			if (it->second->getName() == border) {
 				riskMap[8]->pairNeighbor(it->second);
 			}
@@ -292,10 +296,11 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 
 			//print out available countries
 
-
-			for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
-				if(!it->second->isOwned()) {
-					cout <<"(" << it->first + 1 << ") " <<  it->second->getName() << endl;
+			for (map<int, Country*>::const_iterator it = riskMap.begin();
+					it != riskMap.end(); ++it) {
+				if (!it->second->isOwned()) {
+					cout << "(" << it->first + 1 << ") "
+							<< it->second->getName() << endl;
 				}
 			}
 			cout << endl;
@@ -307,13 +312,14 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 			play1.giveArmyToCountry(riskMap.find(choice)->second);
 			//play1.printControlledCountries();
 
-
 		} else {
 
 			cout << endl << "Player 2 please select a country" << endl;
-			for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
-				if(!it->second->isOwned()) {
-					cout <<"(" << it->first + 1 << ") " <<  it->second->getName() << endl;
+			for (map<int, Country*>::const_iterator it = riskMap.begin();
+					it != riskMap.end(); ++it) {
+				if (!it->second->isOwned()) {
+					cout << "(" << it->first + 1 << ") "
+							<< it->second->getName() << endl;
 				}
 			}
 			cout << endl;
@@ -341,50 +347,57 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 void GameBoard::distributeArmies(Player &play1, Player &play2) {
 	int choice;
 	int counter = 1;
-	while((play1.getArmiesAvailable() + play2.getArmiesAvailable()) != 0) {
+	while ((play1.getArmiesAvailable() + play2.getArmiesAvailable()) != 0) {
 
-			if ((counter % 2 != 0)&&(play1.getArmiesAvailable() != 0)) {
-				cout << endl << "Player 1 please choose a country to place one more army in" << endl;
-				for (map<int, Country*>::const_iterator it = riskMap.begin(); it != riskMap.end(); ++it) {
-								if(it->second->getOwner() == play1.getId()) {
-									cout <<"(" << it->first + 1 << ") " <<  it->second->getName() << ": " << it->second->getOccupiedArmies() << endl;
-								}
-							}
-				cout << endl;
-				cin >> choice;
-				cout << endl;
-				choice--;
-
-				play1.giveArmyToCountry(riskMap.find(choice)->second);
-				play1.printControlledCountries();
-			}
-
-			else if((counter % 2 == 0)&&(play2.getArmiesAvailable() != 0)){
-				cout << endl << "Player 2 please choose a country to place one more army in"
-						<< endl;
-				for (map<int, Country*>::const_iterator it = riskMap.begin();
-						it != riskMap.end(); ++it) {
-					if (it->second->getOwner() == play2.getId()) {
-						cout << "(" << it->first + 1 << ") "
-								<< it->second->getName() << ": "
-								<< it->second->getOccupiedArmies() << endl;
-					}
+		if ((counter % 2 != 0) && (play1.getArmiesAvailable() != 0)) {
+			cout << endl
+					<< "Player 1 please choose a country to place one more army in"
+					<< endl;
+			for (map<int, Country*>::const_iterator it = riskMap.begin();
+					it != riskMap.end(); ++it) {
+				if (it->second->getOwner() == play1.getId()) {
+					cout << "(" << it->first + 1 << ") "
+							<< it->second->getName() << ": "
+							<< it->second->getOccupiedArmies() << endl;
 				}
-				cout << endl;
-				cin >> choice;
-				cout << endl;
-				choice--;
-
-				play2.giveArmyToCountry(riskMap.find(choice)->second);
-				play2.printControlledCountries();
 			}
+			cout << endl;
+			cin >> choice;
+			cout << endl;
+			choice--;
+
+			play1.giveArmyToCountry(riskMap.find(choice)->second);
+			play1.printControlledCountries();
+		}
+
+		else if ((counter % 2 == 0) && (play2.getArmiesAvailable() != 0)) {
+			cout << endl
+					<< "Player 2 please choose a country to place one more army in"
+					<< endl;
+			for (map<int, Country*>::const_iterator it = riskMap.begin();
+					it != riskMap.end(); ++it) {
+				if (it->second->getOwner() == play2.getId()) {
+					cout << "(" << it->first + 1 << ") "
+							<< it->second->getName() << ": "
+							<< it->second->getOccupiedArmies() << endl;
+				}
+			}
+			cout << endl;
+			cin >> choice;
+			cout << endl;
+			choice--;
+
+			play2.giveArmyToCountry(riskMap.find(choice)->second);
+			play2.printControlledCountries();
+		}
 		counter++;
 	}
 }
 
 void GameBoard::printStatus() {
 	//function to print the status of the game
-	for (map<int, Country*>::const_iterator it = riskMap.begin();it != riskMap.end(); ++it) {
+	for (map<int, Country*>::const_iterator it = riskMap.begin();
+			it != riskMap.end(); ++it) {
 	}
 }
 
@@ -453,9 +466,7 @@ void GameBoard::takeTurn(Player &player, Player &player2) {
 
 }
 
-
-
-void GameBoard::attack(Player &attacker, Player &defender){
+void GameBoard::attack(Player &attacker, Player &defender) {
 	int attackFrom;
 	int attackTo;
 	int attackWith;
@@ -463,7 +474,8 @@ void GameBoard::attack(Player &attacker, Player &defender){
 	cout << "Please select a country to attack from" << endl << endl;
 	for (map<int, Country*>::const_iterator it = riskMap.begin();
 			it != riskMap.end(); ++it) {
-		if (it->second->getOwner() == attacker.getId() && it->second->getOccupiedArmies() > 1) {
+		if (it->second->getOwner() == attacker.getId()
+				&& it->second->getOccupiedArmies() > 1) {
 			cout << "(";
 			cout << it->first + 1;
 			cout << ") ";
@@ -489,7 +501,9 @@ void GameBoard::attack(Player &attacker, Player &defender){
 					itMap != riskMap.end(); ++itMap) {
 				if (itMap->second == (*itNeighbor)) {
 					cout << "(" << itMap->first + 1 << ") "
-							<< itMap->second->getName() << ": "<< itMap->second->getOccupiedArmies() << " Armies"<< endl;
+							<< itMap->second->getName() << ": "
+							<< itMap->second->getOccupiedArmies() << " Armies"
+							<< endl;
 				}
 			}
 		}
@@ -498,95 +512,124 @@ void GameBoard::attack(Player &attacker, Player &defender){
 	cin >> attackTo;
 	attackTo--;
 
-	cout<<"How many armies would you like to use in your attack?"<<endl;
+	cout << "How many armies would you like to use in your attack?" << endl;
 
-	if(riskMap.find(attackFrom)->second->getOccupiedArmies()==2){
-		cout<<"You may attack with 1 army"<<endl;
+	if (riskMap.find(attackFrom)->second->getOccupiedArmies() == 2) {
+		cout << "You may attack with 1 army" << endl;
+	} else if (riskMap.find(attackFrom)->second->getOccupiedArmies() == 3) {
+		cout << "You may attack with up to 2 armies" << endl;
+	} else {
+		cout << "You may attack with up to 3 armies" << endl;
 	}
-	else if(riskMap.find(attackFrom)->second->getOccupiedArmies()==3){
-		cout<<"You may attack with up to 2 armies"<<endl;
-	}
-	else{
-		cout<<"You may attack with up to 3 armies"<<endl;
-	}
-	cin>>attackWith;
-	if(attackWith==2){
+
+	cin >> attackWith;
+
+	if (attackWith == 2) {
 		dice roll;
 		roll.AttackDice2();
-		if(riskMap.find(attackTo)->second->getOccupiedArmies()>=2){
+		if (riskMap.find(attackTo)->second->getOccupiedArmies() >= 2) {
 			roll.DefenseDice2();
-		}
-		else{
+		} else {
 			roll.DefenseDice1();
 		}
 		char loser;
 		int troops;
-		loser = roll.Choose_Winners_AD();
-		troops = roll.Choose_Winner_Troops();
-		if(loser=='a'){
-			cout<<"Attacker lost " << troops<< " armies... but not the war"<<endl;
+		loser = roll.Choose_Winners_AD(
+				riskMap.find(attackTo)->second->getOccupiedArmies());
+		troops = roll.Choose_Winner_Troops(
+				riskMap.find(attackTo)->second->getOccupiedArmies());
+		if (loser == 'a') {
+			cout << "Attacker lost " << troops << " armies... but not the war"
+					<< endl;
 			riskMap.find(attackFrom)->second->subtractArmies(troops);
-		}
-		else if(loser=='d'){
-			cout<<"Defense lost "<<troops<<"armies... but not the war"<<endl;
+		} else if (loser == 'd') {
+			cout << "Defense lost " << troops << "armies... but not the war"
+					<< endl;
 			riskMap.find(attackTo)->second->subtractArmies(troops);
-			if(riskMap.find(attackTo)->second->getOccupiedArmies()==0){
+			if (riskMap.find(attackTo)->second->getOccupiedArmies() == 0) {
 				//give attacker the territory if the defending territory has zero troops
+
+				riskMap.find(attackTo)->second->setOwner(attacker.getId());
+				attacker.becomeOwner(riskMap.find(attackTo)->second);
+				defender.giveUpCountry(riskMap.find(attackTo)->second);
+				riskMap.find(attackTo)->second->addArmies(attackWith);
+				riskMap.find(attackFrom)->second->subtractArmies(attackWith);
 
 			}
 		}
 
-
 	}
-	if(attackWith==1){
+	if (attackWith == 1) {
 		dice roll;
 		roll.AttackDice1();
-		if(riskMap.find(attackTo)->second->getOccupiedArmies()>=2){
-					roll.DefenseDice2();
-				}
-				else{
-					roll.DefenseDice1();
-				}
+		if (riskMap.find(attackTo)->second->getOccupiedArmies() >= 2) {
+			roll.DefenseDice2();
+		} else {
+			roll.DefenseDice1();
+		}
 		char loser;
 		int troops;
-		loser = roll.Choose_Winners_AD();
-		troops = roll.Choose_Winner_Troops();
-		if(loser=='a'){
-			cout<<"Attacker lost " << troops<< " armies... but not the war"<<endl;
+		loser = roll.Choose_Winners_AD(
+				riskMap.find(attackTo)->second->getOccupiedArmies());
+		troops = roll.Choose_Winner_Troops(
+				riskMap.find(attackTo)->second->getOccupiedArmies());
+		if (loser == 'a') {
+			cout << "Attacker lost " << troops << " armies... but not the war"
+					<< endl;
 			riskMap.find(attackFrom)->second->subtractArmies(troops);
-		}
-		else if(loser=='d'){
-			cout<<"Defense lost "<<troops<<"armies... but not the war"<<endl;
+		} else if (loser == 'd') {
+			cout << "Defense lost " << troops << "armies... but not the war"
+					<< endl;
 			riskMap.find(attackTo)->second->subtractArmies(troops);
+
+			if (riskMap.find(attackTo)->second->getOccupiedArmies() == 0) {
+				//give attacker the territory if the defending territory has zero troops
+
+				riskMap.find(attackTo)->second->setOwner(attacker.getId());
+				attacker.becomeOwner(riskMap.find(attackTo)->second);
+				defender.giveUpCountry(riskMap.find(attackTo)->second);
+				riskMap.find(attackTo)->second->addArmies(attackWith);
+				riskMap.find(attackFrom)->second->subtractArmies(attackWith);
+			}
+
 		}
-
-
 	}
-	if(attackWith==3){
-		dice roll;
-		roll.AttackDice3();
-		if(riskMap.find(attackTo)->second->getOccupiedArmies()>=2){
-					roll.DefenseDice2();
+		if (attackWith == 3) {
+			dice roll;
+			roll.AttackDice3();
+			if (riskMap.find(attackTo)->second->getOccupiedArmies() >= 2) {
+				roll.DefenseDice2();
+			} else {
+				roll.DefenseDice1();
+			}
+			char loser;
+			int troops;
+			loser = roll.Choose_Winners_AD(
+					riskMap.find(attackTo)->second->getOccupiedArmies());
+			troops = roll.Choose_Winner_Troops(
+					riskMap.find(attackTo)->second->getOccupiedArmies());
+			if (loser == 'a') {
+				cout << "Attacker lost " << troops
+						<< " armies... but not the war" << endl;
+				riskMap.find(attackFrom)->second->subtractArmies(troops);
+			} else if (loser == 'd') {
+				cout << "Defense lost " << troops << "armies... but not the war"
+						<< endl;
+				riskMap.find(attackTo)->second->subtractArmies(troops);
+
+				if (riskMap.find(attackTo)->second->getOccupiedArmies() == 0) {
+					//give attacker the territory if the defending territory has zero troops
+
+					riskMap.find(attackTo)->second->setOwner(attacker.getId());
+					attacker.becomeOwner(riskMap.find(attackTo)->second);
+					defender.giveUpCountry(riskMap.find(attackTo)->second);
+					riskMap.find(attackTo)->second->addArmies(attackWith);
+					riskMap.find(attackFrom)->second->subtractArmies(
+							attackWith);
 				}
-				else{
-					roll.DefenseDice1();
-				}
-		char loser;
-		int troops;
-		loser = roll.Choose_Winners_AD();
-		troops = roll.Choose_Winner_Troops();
-		if(loser=='a'){
-			cout<<"Attacker lost " << troops<< " armies... but not the war"<<endl;
-			riskMap.find(attackFrom)->second->subtractArmies(troops);
+
+			}
 		}
-		else if(loser=='d'){
-			cout<<"Defense lost "<<troops<<"armies... but not the war"<<endl;
-			riskMap.find(attackTo)->second->subtractArmies(troops);
-		}
-
-
-	}
-
 
 }
 
@@ -600,16 +643,20 @@ void GameBoard::manueverTroops(Player &player) {
 
 	while (proceed == 1) {
 
-		cout << "Would you like to move any armies between countries you own? (Y/N)" << endl;
+		cout
+				<< "Would you like to move any armies between countries you own? (Y/N)"
+				<< endl;
 		cin >> manueverChoice;
 
 		switch (manueverChoice) {
 		case 'y':
 		case 'Y':
-			cout << "Please select a country to move armies from" << endl << endl;
+			cout << "Please select a country to move armies from" << endl
+					<< endl;
 			for (map<int, Country*>::const_iterator it = riskMap.begin();
 					it != riskMap.end(); ++it) {
-				if (it->second->getOwner() == player.getId() && it->second->getOccupiedArmies() > 1) {
+				if (it->second->getOwner() == player.getId()
+						&& it->second->getOccupiedArmies() > 1) {
 					cout << "(";
 					cout << it->first + 1;
 					cout << ") ";
@@ -630,11 +677,12 @@ void GameBoard::manueverTroops(Player &player) {
 					<< endl;
 			for (vector<Country*>::const_iterator itNeighbor = riskMap.find(
 					moveFrom)->second->neighbors.begin();
-					itNeighbor != riskMap.find(moveFrom)->second->neighbors.end();
+					itNeighbor
+							!= riskMap.find(moveFrom)->second->neighbors.end();
 					++itNeighbor) {
 				if ((*itNeighbor)->getOwner() == player.getId()) {
-					for (map<int, Country*>::const_iterator itMap = riskMap.begin();
-							itMap != riskMap.end(); ++itMap) {
+					for (map<int, Country*>::const_iterator itMap =
+							riskMap.begin(); itMap != riskMap.end(); ++itMap) {
 						if (itMap->second == (*itNeighbor)) {
 							cout << "(" << itMap->first + 1 << ") "
 									<< itMap->second->getName() << endl;
@@ -657,9 +705,12 @@ void GameBoard::manueverTroops(Player &player) {
 			riskMap.find(moveFrom)->second->subtractArmies(armiesToMove);
 			riskMap.find(moveTo)->second->addArmies(armiesToMove);
 
-			for (map<int, Country*>::const_iterator it = riskMap.begin();it != riskMap.end(); ++it) {
-				if(it->second->getOwner() == player.getId()) {
-					cout << "(" << it->first + 1 << ") " << it->second->getName() << ": " << it->second->getOccupiedArmies() << endl;
+			for (map<int, Country*>::const_iterator it = riskMap.begin();
+					it != riskMap.end(); ++it) {
+				if (it->second->getOwner() == player.getId()) {
+					cout << "(" << it->first + 1 << ") "
+							<< it->second->getName() << ": "
+							<< it->second->getOccupiedArmies() << endl;
 				}
 			}
 			break;

@@ -7,6 +7,7 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include <time.h>
 
 class dice{
 private:
@@ -24,7 +25,6 @@ void AttackDice3(){
     int attackroll[3];
     for (int i = 0; i < 3; i++){
         int A_Roll;
-        srand(time(0));
         A_Roll = rand() %6 +1;
         attackroll[i] = A_Roll;
     }
@@ -47,7 +47,6 @@ void AttackDice2(){
           int attackroll[2];
     for (int i = 0; i < 2; i++){
         int A_Roll;
-        srand(time(0));
         A_Roll = rand() %6 +1;
         attackroll[i] = A_Roll;
     }
@@ -61,7 +60,6 @@ void AttackDice2(){
 }
 
 void AttackDice1(){
-	srand(time(0));
      A_Dice1 = rand() %6 +1;
 }
 
@@ -69,7 +67,6 @@ void DefenseDice2(){
     int defenseroll[2];
     for (int i = 0; i < 2; i++){
         int D_Roll;
-        srand(time(0));
         D_Roll = rand() %6 +1;
         defenseroll[i] = D_Roll;
     }
@@ -83,127 +80,115 @@ void DefenseDice2(){
 }
 
 void DefenseDice1(){
-	srand(time(0));
     D_Dice1 = rand() %6 +1;
 }
 
-int Choose_Winner_Troops(){
-    if ((A_Dice1 == D_Dice1) && (A_Dice2 == D_Dice2)){
-        // Attack loose 1
-    	return 1;
-    }
-    else if ((A_Dice1 > D_Dice1)  && (A_Dice2 > D_Dice2)){
-         // Defense loose 2
-    	return 2;
-    }
+int Choose_Winner_Troops(int dTroops) {
+	if (dTroops >= 2) {
 
-    //Break even favor defense
-    else if((A_Dice1 > D_Dice1) && (A_Dice2 < D_Dice2)){
-    	// attack lose 1
-    	return 1;
-    }
-    else if((A_Dice1 < D_Dice1) && (A_Dice2 > D_Dice2)){
-    	//attack lose 1
-       	return 1;
-       }
+		if ((A_Dice1 == D_Dice1) && (A_Dice2 == D_Dice2)) {
+			// Attack loose 1
+			return 1;
+		} else if ((A_Dice1 > D_Dice1) && (A_Dice2 > D_Dice2)) {
+			// Defense loose 2
+			return 2;
+		}
 
+		//Break even favor defense
+		else if ((A_Dice1 > D_Dice1) && (A_Dice2 < D_Dice2)) {
+			// attack lose 1
+			return 1;
+		} else if ((A_Dice1 < D_Dice1) && (A_Dice2 > D_Dice2)) {
+			//attack lose 1
+			return 1;
+		}
 
-
-    else if ((A_Dice1 > D_Dice1)  && (A_Dice2 == D_Dice2)){
-         // Defence loose 1
-    	return 1;
-    }
-    else if ((A_Dice1 == D_Dice1)  && (A_Dice2 > D_Dice2)){
-         // Defence loose 1
-    	return 1;
-    }
-    else if ((A_Dice1 == D_Dice1)  && (A_Dice2 > D_Dice2)){
-         // Defence loose 1
-    	return 1;
-    }
-    else if ((D_Dice1 > A_Dice1)  && (D_Dice2 > A_Dice2)){
-         // Attack loose 2
-    	return 2;
-    }
-    else if ((D_Dice1 > A_Dice1)  && (D_Dice2 == A_Dice2)){
-         // Attack loose 1
-    	return 1;
-    }
-    else if ((D_Dice1 == A_Dice1)  && (D_Dice2 > A_Dice2)){
-         // Attack loose 1
-    	return 1;
-    }
-    else if (A_Dice1 == D_Dice1){
-         // Attack loose 1
-    	return 1;
-    }
-    else if (A_Dice1 > D_Dice1){
-         // Defense loose 1
-    	return 1;
-    }
-    else if (D_Dice1 > A_Dice1){
-         // Attack loose 1
-    	return 1;
-    }
+		else if ((A_Dice1 > D_Dice1) && (A_Dice2 == D_Dice2)) {
+			// Defence loose 1
+			return 1;
+		} else if ((A_Dice1 == D_Dice1) && (A_Dice2 > D_Dice2)) {
+			// Defence loose 1
+			return 1;
+		} else if ((A_Dice1 == D_Dice1) && (A_Dice2 > D_Dice2)) {
+			// Defence loose 1
+			return 1;
+		} else if ((D_Dice1 > A_Dice1) && (D_Dice2 > A_Dice2)) {
+			// Attack loose 2
+			return 2;
+		} else if ((D_Dice1 > A_Dice1) && (D_Dice2 == A_Dice2)) {
+			// Attack loose 1
+			return 1;
+		} else if ((D_Dice1 == A_Dice1) && (D_Dice2 > A_Dice2)) {
+			// Attack loose 1
+			return 1;
+		}
+	} else {
+		if (A_Dice1 == D_Dice1) {
+			// Attack loose 1
+			return 1;
+		} else if (A_Dice1 > D_Dice1) {
+			// Defense loose 1
+			return 1;
+		} else if (D_Dice1 > A_Dice1) {
+			// Attack loose 1
+			return 1;
+		}
+	}
+	return 1;
 }
-char Choose_Winners_AD(){
-	if ((A_Dice1 == D_Dice1) && (A_Dice2 == D_Dice2)){
-	        // Attack loose 1
-	    	return 'a';
-	    }
-	    else if ((A_Dice1 > D_Dice1)  && (A_Dice2 > D_Dice2)){
-	         // Defense loose 2
-	    	return 'd';
-	    }
-	    else if ((A_Dice1 > D_Dice1)  && (A_Dice2 == D_Dice2)){
-	         // Defence loose 1
-	    	return 'd';
-	    }
-	    else if ((A_Dice1 == D_Dice1)  && (A_Dice2 > D_Dice2)){
-	         // Defence loose 1
-	    	return 'd';
-	    }
-	    else if ((A_Dice1 == D_Dice1)  && (A_Dice2 > D_Dice2)){
-	         // Defence loose 1
-	    	return 'd';
-	    }
-	    else if ((D_Dice1 > A_Dice1)  && (D_Dice2 > A_Dice2)){
-	         // Attack loose 2
-	    	return 'a';
-	    }
-	    else if ((D_Dice1 > A_Dice1)  && (D_Dice2 == A_Dice2)){
-	         // Attack loose 1
-	    	return 'a';
-	    }
-	    else if ((D_Dice1 == A_Dice1)  && (D_Dice2 > A_Dice2)){
-	         // Attack loose 1
-	    	return 'a';
-	    }
-	    else if (A_Dice1 == D_Dice1){
-	         // Attack loose 1
-	    	return 'a';
-	    }
-	    else if (A_Dice1 > D_Dice1){
-	         // Defense loose 1
-	    	return 'd';
-	    }
-	    else if (D_Dice1 > A_Dice1){
-	         // Attack loose 1
-	    	return 'a';
-	    }
 
-	 //Break even favor defense
-	    else if((A_Dice1 > D_Dice1) && (A_Dice2 < D_Dice2)){
-	    	// attack lose 1
-	    	return 'a';
-	    }
-	    else if((A_Dice1 < D_Dice1) && (A_Dice2 > D_Dice2)){
-	    	//attack lose 1
-	       	return 'a';
-	       }
+char Choose_Winners_AD(int dTroops) {
+	if (dTroops >=2) {
+		if ((A_Dice1 == D_Dice1) && (A_Dice2 == D_Dice2)) {
+			// Attack loose 1
+			return 'a';
+		} else if ((A_Dice1 > D_Dice1) && (A_Dice2 > D_Dice2)) {
+			// Defense loose 2
+			return 'd';
+		} else if ((A_Dice1 > D_Dice1) && (A_Dice2 == D_Dice2)) {
+			// Defence loose 1
+			return 'd';
+		} else if ((A_Dice1 == D_Dice1) && (A_Dice2 > D_Dice2)) {
+			// Defence loose 1
+			return 'd';
+		} else if ((A_Dice1 == D_Dice1) && (A_Dice2 > D_Dice2)) {
+			// Defence loose 1
+			return 'd';
+		} else if ((D_Dice1 > A_Dice1) && (D_Dice2 > A_Dice2)) {
+			// Attack loose 2
+			return 'a';
+		} else if ((D_Dice1 > A_Dice1) && (D_Dice2 == A_Dice2)) {
+			// Attack loose 1
+			return 'a';
+		} else if ((D_Dice1 == A_Dice1) && (D_Dice2 > A_Dice2)) {
+			// Attack loose 1
+			return 'a';
+		}
 
+//Break even favor defense
+		else if ((A_Dice1 > D_Dice1) && (A_Dice2 < D_Dice2)) {
+			// attack lose 1
+			return 'a';
+		} else if ((A_Dice1 < D_Dice1) && (A_Dice2 > D_Dice2)) {
+			//attack lose 1
+			return 'a';
+		}
+	}
 
+	else {
 
+		if (A_Dice1 == D_Dice1) {
+			// Attack loose 1
+			return 'a';
+		} else if (A_Dice1 > D_Dice1) {
+			// Defense loose 1
+			return 'd';
+		} else if (D_Dice1 > A_Dice1) {
+			// Attack loose 1
+			return 'a';
+		}
+	}
+	return 'a';
 }
 };
 

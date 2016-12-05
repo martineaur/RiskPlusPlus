@@ -13,6 +13,7 @@
 //#include "setUp.h"
 #include "player.h"
 #include "gameBoard.h"
+#include <time.h>
 
 
 
@@ -20,6 +21,8 @@ using namespace std;
 
 int main() {
 
+
+	srand(time(NULL));
 	GameBoard g;
 
 	return 0;
