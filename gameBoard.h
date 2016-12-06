@@ -79,9 +79,11 @@ public:
 	void distributeCountries(Player &player1, Player &player2);
 	void distributeArmies(Player &player1, Player &player2);
 	void takeTurn(Player &player1, Player &player2);
+	bool isAttackPossible(Player &attacker, Player &defender);
 	void attack(Player &player, Player &player2);
 	void manueverTroops(Player &player);
 	void printStatus(Player &player1, Player &player2);
+	bool isManueverPossible(Player &attacker, Player &defender);
 };
 
 void GameBoard::initiateCountries() {
@@ -483,36 +485,64 @@ void GameBoard::takeTurn(Player &player, Player &player2) {
 		if (player.countriesControlled.size() == riskMap.size()) {
 			return;
 		}
-		cout << "Player " << player.getId() << ": Do you wish to attack (Y/N)?" << endl << endl;
-		cin >> attackChoice;
+		bool attackPossible = isAttackPossible(player, player2);
+		if (attackPossible) {
+			cout << "Player " << player.getId() << ": Do you wish to attack (Y/N)?" << endl << endl;
+			cin >> attackChoice;
 
-		switch (attackChoice) {
-		case 'Y':
-		case 'y':
-			attack(player, player2);
-			break;
+			switch (attackChoice) {
+			case 'Y':
+			case 'y':
+				attack(player, player2);
+				break;
 
-		case 'N':
-		case 'n':
-			attackMenu = 0;
-			break;
-		default:
-			cin.clear();
-			cin.ignore();
-			cout << "Invalid selection" << endl;
-			break;
+			case 'N':
+			case 'n':
+				attackMenu = 0;
+				break;
+			default:
+				cin.clear();
+				cin.ignore();
+				cout << "Invalid selection" << endl;
+				break;
+			}
+		}
+		else {
+			cout << "No attacking options possible..." << endl;
 		}
 
+		bool manueverTroopsPossible = isManueverPossible(player, player2);
+		if (manueverTroopsPossible) {
+			char manueverChoice;
+			cout << "Player " << player.getId() << "Would you like to move any armies between countries you own? (Y/N)" << endl;
+			cin >> manueverChoice;
+
+			switch(manueverChoice) {
+			case 'Y':
+			case 'y':
+				manueverTroops(player);
+				break;
+			case 'N':
+			case 'n':
+				attackMenu = 0;
+				break;
+			default:
+				cout << "Invalid selection" << endl;
+			}
+
+		}
+		else {
+			cout << "No manuevering options possible..." << endl;
+			attackMenu = 0;
+		}
 	}
-
-	manueverTroops(player);
-
 }
 
 void GameBoard::attack(Player &attacker, Player &defender) {
 	int attackFrom;
 	int attackTo;
 	int attackWith;
+	int counter = 0;
 
 	cout << "Player " << attacker.getId() << ": please select a country to attack from" << endl << endl;
 	for (map<int, Country*>::const_iterator it = riskMap.begin();
@@ -527,7 +557,9 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 			cout << it->second->getOccupiedArmies();
 			cout << " armies";
 			cout << endl;
-
+		}
+		else {
+			counter++;
 		}
 	}
 
@@ -679,83 +711,65 @@ void GameBoard::manueverTroops(Player &player) {
 	char manueverChoice;
 
 	while (proceed == 1) {
+		cout << "Please select a country to move armies from" << endl << endl;
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
+			if (it->second->getOwner() == player.getId()
+					&& it->second->getOccupiedArmies() > 1) {
+				cout << "(";
+				cout << it->first + 1;
+				cout << ") ";
+				cout << it->second->getName();
+				cout << ": ";
+				cout << it->second->getOccupiedArmies();
+				cout << " armies";
+				cout << endl;
 
-		cout
-				<< "Player " << player.getId() << "Would you like to move any armies between countries you own? (Y/N)"
-				<< endl;
-		cin >> manueverChoice;
-
-		switch (manueverChoice) {
-		case 'y':
-		case 'Y':
-			cout << "Please select a country to move armies from" << endl
-					<< endl;
-			for (map<int, Country*>::const_iterator it = riskMap.begin();
-					it != riskMap.end(); ++it) {
-				if (it->second->getOwner() == player.getId()
-						&& it->second->getOccupiedArmies() > 1) {
-					cout << "(";
-					cout << it->first + 1;
-					cout << ") ";
-					cout << it->second->getName();
-					cout << ": ";
-					cout << it->second->getOccupiedArmies();
-					cout << " armies";
-					cout << endl;
-
-				}
 			}
-			cout << endl;
+		}
+		cout << endl;
 
-			cin >> moveFrom;
-			moveFrom--;
+		cin >> moveFrom;
+		moveFrom--;
 
-			cout << "Player " << player.getId() << "Please select a country to move your armies to" << endl
-					<< endl;
-			for (vector<Country*>::const_iterator itNeighbor = riskMap.find(
-					moveFrom)->second->neighbors.begin();
-					itNeighbor
-							!= riskMap.find(moveFrom)->second->neighbors.end();
-					++itNeighbor) {
-				if ((*itNeighbor)->getOwner() == player.getId()) {
-					for (map<int, Country*>::const_iterator itMap =
-							riskMap.begin(); itMap != riskMap.end(); ++itMap) {
-						if (itMap->second == (*itNeighbor)) {
-							cout << "(" << itMap->first + 1 << ") "
-									<< itMap->second->getName() << endl;
-						}
+		cout << "Player " << player.getId()
+				<< "Please select a country to move your armies to" << endl
+				<< endl;
+		for (vector<Country*>::const_iterator itNeighbor = riskMap.find(
+				moveFrom)->second->neighbors.begin();
+				itNeighbor != riskMap.find(moveFrom)->second->neighbors.end();
+				++itNeighbor) {
+			if ((*itNeighbor)->getOwner() == player.getId()) {
+				for (map<int, Country*>::const_iterator itMap = riskMap.begin();
+						itMap != riskMap.end(); ++itMap) {
+					if (itMap->second == (*itNeighbor)) {
+						cout << "(" << itMap->first + 1 << ") "
+								<< itMap->second->getName() << endl;
 					}
 				}
-
 			}
-			cout << endl;
 
-			cin >> moveTo;
-			moveTo--;
+		}
+		cout << endl;
 
-			cout << "How many armies do you want to move?" << endl;
-			cout << "You can move up to: "
-					<< riskMap.find(moveFrom)->second->getOccupiedArmies() - 1
-					<< endl;
-			cin >> armiesToMove;
+		cin >> moveTo;
+		moveTo--;
 
-			riskMap.find(moveFrom)->second->subtractOccupiedArmies(armiesToMove);
-			riskMap.find(moveTo)->second->addOccupiedArmies(armiesToMove);
+		cout << "How many armies do you want to move?" << endl;
+		cout << "You can move up to: "
+				<< riskMap.find(moveFrom)->second->getOccupiedArmies() - 1
+				<< endl;
+		cin >> armiesToMove;
 
-			for (map<int, Country*>::const_iterator it = riskMap.begin();
-					it != riskMap.end(); ++it) {
-				if (it->second->getOwner() == player.getId()) {
-					cout << "(" << it->first + 1 << ") "
-							<< it->second->getName() << ": "
-							<< it->second->getOccupiedArmies() << endl;
-				}
+		riskMap.find(moveFrom)->second->subtractOccupiedArmies(armiesToMove);
+		riskMap.find(moveTo)->second->addOccupiedArmies(armiesToMove);
+
+		for (map<int, Country*>::const_iterator it = riskMap.begin();
+				it != riskMap.end(); ++it) {
+			if (it->second->getOwner() == player.getId()) {
+				cout << "(" << it->first + 1 << ") " << it->second->getName()
+						<< ": " << it->second->getOccupiedArmies() << endl;
 			}
-			break;
-
-		case 'n':
-		case 'N':
-			proceed = 0;
-			break;
 		}
 	}
 }
@@ -768,4 +782,68 @@ void GameBoard::printStatus(Player &player1, Player &player2) {
 	cout << endl << "Player " << player2.getId() << " controls: " << endl;
 	cout << "ARMIES AVAILABLE: " << player2.getArmiesAvailable() << endl;
 	player2.printControlledCountries();
+}
+
+bool GameBoard::isAttackPossible(Player &attacker, Player &defender) {
+	int countControlledCountriesArmies = 0;
+	int countOpponentSurroundingCountries = 0;
+
+	for(vector<Country*>::const_iterator it = attacker.countriesControlled.begin(); it != attacker.countriesControlled.end(); ++it) {
+		if((*it)->getOccupiedArmies() > 1) {
+			countControlledCountriesArmies++;
+		}
+	}
+
+	if (countControlledCountriesArmies > 0) {
+		for(vector<Country*>::const_iterator itControlled = attacker.countriesControlled.begin(); itControlled != attacker.countriesControlled.end(); ++itControlled) {
+			for(vector<Country*>::const_iterator itNeighbors = (*itControlled)->neighbors.begin(); itNeighbors != (*itControlled)->neighbors.end(); ++itNeighbors) {
+				if ((*itControlled)->getOccupiedArmies() > 1) {
+					if ((*itNeighbors)->getOwner() == defender.getId()) {
+						countOpponentSurroundingCountries++;
+					}
+				}
+			}
+		}
+
+		if (countOpponentSurroundingCountries > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
+}
+
+bool GameBoard::isManueverPossible(Player &attacker, Player &defender) {
+	int countControlledCountriesArmies = 0;
+	int countFriendlySurroundingCountries = 0;
+
+	for(vector<Country*>::const_iterator it = attacker.countriesControlled.begin(); it != attacker.countriesControlled.end(); ++it) {
+		if((*it)->getOccupiedArmies() > 1) {
+			countControlledCountriesArmies++;
+		}
+	}
+
+	if (countControlledCountriesArmies > 0) {
+		for(vector<Country*>::const_iterator itControlled = attacker.countriesControlled.begin(); itControlled != attacker.countriesControlled.end(); ++itControlled) {
+			for(vector<Country*>::const_iterator itNeighbors = (*itControlled)->neighbors.begin(); itNeighbors != (*itControlled)->neighbors.end(); ++itNeighbors) {
+				if ((*itNeighbors)->getOwner() == attacker.getId()) {
+					countFriendlySurroundingCountries++;
+				}
+			}
+		}
+
+		if (countFriendlySurroundingCountries > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
 }
