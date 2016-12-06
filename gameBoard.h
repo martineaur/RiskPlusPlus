@@ -41,6 +41,10 @@ public:
 
 		while((player1.countriesControlled.size() != riskMap.size()) && (player2.countriesControlled.size() != riskMap.size())){
 
+			/*
+			 * TODO: when the player can neither attack nor manuever, this output can be a
+			 *little confusing, might need to adjust
+			 */
 			if ((counter % 2) != 0) {
 				cout << string(50, '\n');
 				takeTurn(player1, player2);
@@ -740,7 +744,6 @@ void GameBoard::manueverTroops(Player &player) {
 		cout << "Player " << player.getId()
 				<< ": Please select a country to move your armies to" << endl
 				<< endl;
-		//TODO for some reason, the for-loop below no longer works, we need to figure this out ASAP
 		for (vector<Country*>::const_iterator itNeighbor = riskMap.find(moveFrom)->second->neighbors.begin(); itNeighbor != riskMap.find(moveFrom)->second->neighbors.end();++itNeighbor) {
 			if ((*itNeighbor)->getOwner() == player.getId()) {
 				for (map<int, Country*>::const_iterator itMap = riskMap.begin(); itMap != riskMap.end(); ++itMap) {
