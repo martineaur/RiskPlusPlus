@@ -33,11 +33,11 @@ class Player {
 				cout << "A player has entered the game. His Player ID is " << playerId << endl;
 			}
 
+			vector<Country*> countriesControlled;
+
 	private:
 			int playerId;
 			int armiesAvailable;
-
-			vector<Country*> countriesControlled;
 			//an integer between 0 and 8 that uses riskMap to find the country
 
 

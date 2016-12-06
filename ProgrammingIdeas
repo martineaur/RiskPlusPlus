@@ -17,7 +17,7 @@ TO DO LIST FOR 12/5/2016
 -cout statements for letting the user know which player is taking the turn/attacking
 -error checking
 -general output formatting
--when you only have 1 army in every territory, you cannot attack
+-when you only have 1 army in every territory, you cannot attack -> BUG
 -cout that you have been given 3 armies at the beginning of each turn
 -oscillation of players
 -winning conditions

@@ -164,7 +164,6 @@ char Choose_Winners_AD(int dTroops) {
 			// Attack loose 1
 			return 'a';
 		}
-
 //Break even favor defense
 		else if ((A_Dice1 > D_Dice1) && (A_Dice2 < D_Dice2)) {
 			// attack lose 1
@@ -173,9 +172,7 @@ char Choose_Winners_AD(int dTroops) {
 			//attack lose 1
 			return 'a';
 		}
-	}
-
-	else {
+	}else {
 
 		if (A_Dice1 == D_Dice1) {
 			// Attack loose 1

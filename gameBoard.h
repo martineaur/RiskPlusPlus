@@ -4,8 +4,8 @@
 using namespace std;
 
 /*
- * The GameBoard class performs most of the functionality for the entire program. Only one
- * GameBoard is instantiated from the main function, but every other object in the entire program
+ * The GameBoard class contains most of the functionality for the entire program. Only one
+ * GameBoard is instantiated from the main function, but all other objects in the entire program
  * are able to interact with each other through this class.
  *
  * Once the GameBoard is instantiated, all countries are initiated with one large text file, and
@@ -33,15 +33,44 @@ public:
 
 		Player players[2] = { player1, player2 };
 
+
 		distributeCountries(player1, player2);
 		distributeArmies(player1, player2);
 
-		takeTurn(player1, player2);
+		int counter = 1;
+
+		while((player1.countriesControlled.size() != riskMap.size()) && (player2.countriesControlled.size() != riskMap.size())){
+
+			if ((counter % 2) != 0) {
+				cout << string(50, '\n');
+				takeTurn(player1, player2);
+			}
+
+			else {
+			cout << string(50, '\n');
+			takeTurn(player2, player1);
+			}
+
+			counter++;
+
+		}
+
+		if((player1.countriesControlled.size() == riskMap.size())){
+				cout << "Player " << player1.getId() <<  " wins!!!" << endl;
+		}
+
+		else {
+			cout << "Player " << player2.getId() <<  " wins!!!" << endl;
+		}
+
+
 	}
 
 	map<int, Country*> riskMap;
 
 private:
+
+
 
 public:
 	//comments below for each function
@@ -49,10 +78,10 @@ public:
 	void createBorders();
 	void distributeCountries(Player &player1, Player &player2);
 	void distributeArmies(Player &player1, Player &player2);
-	void printStatus();
 	void takeTurn(Player &player1, Player &player2);
 	void attack(Player &player, Player &player2);
 	void manueverTroops(Player &player);
+	void printStatus(Player &player1, Player &player2);
 };
 
 void GameBoard::initiateCountries() {
@@ -356,15 +385,6 @@ void GameBoard::distributeCountries(Player &play1, Player &play2) {
 
 		counter++;
 	}
-
-	cout << endl << "Player 1 controls: " << endl;
-	cout << "ARMIES AVAILABLE: " << play1.getArmiesAvailable() << endl;
-	play1.printControlledCountries();
-
-	cout << endl << "Player 2 controls: " << endl;
-	cout << "ARMIES AVAILABLE: " << play2.getArmiesAvailable() << endl;
-	play2.printControlledCountries();
-
 }
 
 void GameBoard::distributeArmies(Player &play1, Player &play2) {
@@ -415,14 +435,10 @@ void GameBoard::distributeArmies(Player &play1, Player &play2) {
 		}
 		counter++;
 	}
+
+	printStatus(play1, play2);
 }
 
-void GameBoard::printStatus() {
-	//function to print the status of the game
-	for (map<int, Country*>::const_iterator it = riskMap.begin();
-			it != riskMap.end(); ++it) {
-	}
-}
 
 void GameBoard::takeTurn(Player &player, Player &player2) {
 
@@ -443,6 +459,7 @@ void GameBoard::takeTurn(Player &player, Player &player2) {
 	bool attackMenu = 1;
 
 	player.setArmiesAvailable(3);
+	cout << "Player " << player.getId() << " has been given 3 armies" << endl;
 
 	while (player.getArmiesAvailable() != 0) {
 		cout << "Player " << player.getId() << ": please select country you wish to put an army in" << endl
@@ -463,6 +480,9 @@ void GameBoard::takeTurn(Player &player, Player &player2) {
 	}
 
 	while (attackMenu) {
+		if (player.countriesControlled.size() == riskMap.size()) {
+			return;
+		}
 		cout << "Player " << player.getId() << ": Do you wish to attack (Y/N)?" << endl << endl;
 		cin >> attackChoice;
 
@@ -566,7 +586,7 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 					<< endl;
 			riskMap.find(attackFrom)->second->subtractOccupiedArmies(troops);
 		} else if (loser == 'd') {
-			cout << "Defense lost " << troops << "armies... but not the war"
+			cout << "Defense lost " << troops << " armies... but not the war"
 					<< endl;
 			riskMap.find(attackTo)->second->subtractOccupiedArmies(troops);
 			if (riskMap.find(attackTo)->second->getOccupiedArmies() == 0) {
@@ -576,7 +596,7 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 				attacker.becomeOwner(riskMap.find(attackTo)->second);
 				defender.giveUpCountry(riskMap.find(attackTo)->second);
 				riskMap.find(attackTo)->second->addOccupiedArmies(attackWith);
-				riskMap.find(attackFrom)->second->subtractOccupiedArmies(attackWith);
+				riskMap.find(attackFrom)->second->subtractOccupiedArmies(attackWith - 1);
 
 			}
 		}
@@ -585,23 +605,17 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 	if (attackWith == 1) {
 		dice roll;
 		roll.AttackDice1();
-		if (riskMap.find(attackTo)->second->getOccupiedArmies() >= 2) {
-			roll.DefenseDice2();
-		} else {
-			roll.DefenseDice1();
-		}
+		roll.DefenseDice1();
 		char loser;
 		int troops;
-		loser = roll.Choose_Winners_AD(
-				riskMap.find(attackTo)->second->getOccupiedArmies());
-		troops = roll.Choose_Winner_Troops(
-				riskMap.find(attackTo)->second->getOccupiedArmies());
+		loser = roll.Choose_Winners_AD(attackWith);
+		troops = roll.Choose_Winner_Troops(attackWith);
 		if (loser == 'a') {
 			cout << "Attacker lost " << troops << " armies... but not the war"
 					<< endl;
 			riskMap.find(attackFrom)->second->subtractOccupiedArmies(troops);
 		} else if (loser == 'd') {
-			cout << "Defense lost " << troops << "armies... but not the war"
+			cout << "Defense lost " << troops << " armies... but not the war"
 					<< endl;
 			riskMap.find(attackTo)->second->subtractOccupiedArmies(troops);
 
@@ -612,7 +626,7 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 				attacker.becomeOwner(riskMap.find(attackTo)->second);
 				defender.giveUpCountry(riskMap.find(attackTo)->second);
 				riskMap.find(attackTo)->second->addOccupiedArmies(attackWith);
-				riskMap.find(attackFrom)->second->subtractOccupiedArmies(attackWith);
+				riskMap.find(attackFrom)->second->subtractOccupiedArmies(attackWith - 1);
 			}
 
 		}
@@ -636,7 +650,7 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 						<< " armies... but not the war" << endl;
 				riskMap.find(attackFrom)->second->subtractOccupiedArmies(troops);
 			} else if (loser == 'd') {
-				cout << "Defense lost " << troops << "armies... but not the war"
+				cout << "Defense lost " << troops << " armies... but not the war"
 						<< endl;
 				riskMap.find(attackTo)->second->subtractOccupiedArmies(troops);
 
@@ -648,12 +662,12 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 					defender.giveUpCountry(riskMap.find(attackTo)->second);
 					riskMap.find(attackTo)->second->addOccupiedArmies(attackWith);
 					riskMap.find(attackFrom)->second->subtractOccupiedArmies(
-							attackWith);
+							attackWith - 1);
 				}
 
 			}
 		}
-
+		printStatus(attacker, defender);
 }
 
 void GameBoard::manueverTroops(Player &player) {
@@ -667,7 +681,7 @@ void GameBoard::manueverTroops(Player &player) {
 	while (proceed == 1) {
 
 		cout
-				<< "Would you like to move any armies between countries you own? (Y/N)"
+				<< "Player " << player.getId() << "Would you like to move any armies between countries you own? (Y/N)"
 				<< endl;
 		cin >> manueverChoice;
 
@@ -696,7 +710,7 @@ void GameBoard::manueverTroops(Player &player) {
 			cin >> moveFrom;
 			moveFrom--;
 
-			cout << "Please select a country to move your armies to" << endl
+			cout << "Player " << player.getId() << "Please select a country to move your armies to" << endl
 					<< endl;
 			for (vector<Country*>::const_iterator itNeighbor = riskMap.find(
 					moveFrom)->second->neighbors.begin();
@@ -744,4 +758,14 @@ void GameBoard::manueverTroops(Player &player) {
 			break;
 		}
 	}
+}
+
+void GameBoard::printStatus(Player &player1, Player &player2) {
+	cout << endl << "Player " << player1.getId() << " controls: " << endl;
+	cout << "ARMIES AVAILABLE: " << player1.getArmiesAvailable() << endl;
+	player1.printControlledCountries();
+
+	cout << endl << "Player " << player2.getId() << " controls: " << endl;
+	cout << "ARMIES AVAILABLE: " << player2.getArmiesAvailable() << endl;
+	player2.printControlledCountries();
 }
