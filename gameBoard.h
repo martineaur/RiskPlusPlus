@@ -1,3 +1,9 @@
+/*
+ * riskmn.cpp
+ *
+ *  Created on: Nov 20, 2016
+ *      Authors: reidr, martineaur, levesques, dossantosl
+ */
 #include <iostream>
 #include <string>
 #include "dice.h"

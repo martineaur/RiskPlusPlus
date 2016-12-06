@@ -2,7 +2,7 @@
  * riskmn.cpp
  *
  *  Created on: Nov 20, 2016
- *      Author: reidr
+ *      Authors: reidr, martineaur, levesques, dossantosl
  */
 
 #include <iostream>

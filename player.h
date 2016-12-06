@@ -1,3 +1,9 @@
+/*
+ * riskmn.cpp
+ *
+ *  Created on: Nov 20, 2016
+ *      Author: dossantosl
+ */
 #include <iostream>
 #include <vector>
 #include <algorithm>
