@@ -463,11 +463,7 @@ void GameBoard::distributeCountries(Player &player/*1, Player &play2*/) {
 
 void GameBoard::distributeArmies(Player &player /*Player &play2*/) {
 	unsigned int choice;
-	//int counter = 1;
 
-	//while ((play1.getArmiesAvailable() + play2.getArmiesAvailable()) != 0) {
-
-	//if ((counter % 2 != 0) && (play1.getArmiesAvailable() != 0)) {
 	cout << endl << "Player " << player.getId()
 			<< ": please choose a country to place one more army in" << endl;
 	for (map<int, Country*>::const_iterator it = riskMap.begin();
@@ -499,32 +495,20 @@ void GameBoard::distributeArmies(Player &player /*Player &play2*/) {
 
 }
 
-/*		else if ((counter % 2 == 0) && (play2.getArmiesAvailable() != 0)) {
-			cout << endl
-					<< "Player 2 please choose a country to place one more army in"
-					<< endl;
-			for (map<int, Country*>::const_iterator it = riskMap.begin();
-					it != riskMap.end(); ++it) {
-				if (it->second->getOwner() == play2.getId()) {
-					cout << "(" << it->first + 1 << ") "
-							<< it->second->getName() << ": "
-							<< it->second->getOccupiedArmies() << endl;
-				}
-			}
-			cout << endl;
-			cin >> choice;
-			cout << endl;
-			choice--;
-
-			play2.giveArmyToCountry(riskMap.find(choice)->second);
-			play2.printControlledCountries();
-		}
-		counter++;
-	}
-
-	printStatus(play1, play2);*/
-//}
-
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ * This function makes the player being passed in put an additional army in their owned
+ * countries. The player being passed in is the one selection the army placement. First
+ * all countries that the player owns are printed out by creating an iterator and
+ * traversing the player's controlledCountries vector. Then the user is asked for an
+ * input that is stored into the unsigned integer called choice. The entered value is
+ * used to represent the country ID. The entered value is then checked to see if the
+ * value is between 0 and 9 as well as checked to see if the corresponding country is
+ * owned by the user. If both of these are true, then an army is given to the country and
+ * the player's countriesControlled vector is printed. If either condition fails, then the
+ * user is warned. Note that a user must enter a valid value in order to continue. Both this
+ * function and the previous one are used only during game set up and therefore are only
+ * called until setup is complete.
+ */
 
 void GameBoard::takeTurn(Player &player, Player &player2) {
 
@@ -590,6 +574,11 @@ void GameBoard::takeTurn(Player &player, Player &player2) {
 	bool attackPossible = isAttackPossible(player, player2);
 	if (attackPossible) {
 		while (attackMenu) {
+
+			if (player.countriesControlled.size() == riskMap.size()) {
+				return;
+			}
+
 			cout << "Player " << player.getId()
 					<< ": Do you wish to attack (Y/N)?" << endl << endl;
 			cin >> attackChoice;
@@ -646,7 +635,34 @@ void GameBoard::takeTurn(Player &player, Player &player2) {
 		attackMenu = 0;
 	}
 }
-
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ * The above function is the algorithm for player. The function has three main components:
+ * Troop placement, attacking, and maneuvering, much like the original Risk board game.
+ *
+ * The first thing that happens is that the player taking the turn, the first player being
+ * passed to the function, is given three armies to place in territories that he owns. The
+ * available countries are printed and the user is asked to input the ID of the country they
+ * wish to select. If the ID is determined to greater than or equal to zero and the
+ * corresponding country is owned by the player taking the turn, then the army is placed. If
+ * either conditional is false, then the user is warned. A valid value must be entered in
+ * order for game play to continue.
+ *
+ * Once all armies haven been placed, then a menu is shown, the next part of the turn begins.
+ * First, the boolean value attackPossible is created and stores as the result of a function
+ * that determines if an attack is deemed not possible, then the next portion is skipped.
+ * if the opposite is true user provided the option to attack as a yes or no.
+ * If the user selects yes, then the attack algorithm is called. This repeats until the user
+ * does not wish to attack. If the user enters an invalid value, the user is warned.
+ *
+ * Once a user does not wish to attack or another attack is not possible, then a boolean
+ * value called maneuverPossible is created and stores the result of a function that
+ * determines if movement of troops from one country to another is possible. If it is
+ * determined that maneuvering of troops is not possible, then the next portion is skipped.
+ * If the opposite is true, user is prompted with the option to move troops by yes or no. If
+ * the user selects yes, then the maneuver algorithm is called. This repeats until the user
+ * selects no or maneuvering troops is not longer possible. If the user enters an invalid value,
+ * the user is warned.
+ */
 
 void GameBoard::attack(Player &attacker, Player &defender) {
 	unsigned int attackFrom;
@@ -718,27 +734,6 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 		if ((attackTo >= 0) && (attackTo < riskMap.size())
 				&& (riskMap.find(attackTo)->second->getOwner()
 						== defender.getId())) {
-			/*for (vector<Country*>::const_iterator itNeighbor = riskMap.find(
-			 attackFrom)->second->neighbors.begin();
-			 itNeighbor
-			 != riskMap.find(attackFrom)->second->neighbors.end();
-			 ++itNeighbor) {
-			 if ((*itNeighbor)->getOwner() != attacker.getId()) {
-
-			 for (map<int, Country*>::const_iterator itMap =
-			 riskMap.begin(); itMap != riskMap.end(); ++itMap) {
-			 if (itMap->second == (*itNeighbor)) {
-			 break;
-			 }
-			 foundNeighbor = true;
-			 break;
-			 }
-
-			 }
-
-			 if (foundNeighbor) {
-			 break;
-			 }*/
 
 			for (vector<Country*>::const_iterator itAttackFromNeighbors =
 					riskMap.find(attackFrom)->second->neighbors.begin();
@@ -1020,6 +1015,20 @@ void GameBoard::printStatus(Player &player1, Player &player2) {
 	player2.printControlledCountries();
 	cout << endl;
 }
+
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ * The above function is the algorithm called when a player wishes to maneuver troops.
+ * First, two unsigned integers are created, moveFrom and moveTo. These will store the
+ * user's input when choosing which country to move troops from and which country to move
+ * troops to respectively. An integer armiesToMove is also created to store the number of
+ * armies the user wishes to move. Finally, a boolean value foundNeighbor is also created and
+ * will be used to determine if the selected countries are neighbors.
+ *
+ * The user is then asked to select which country to move from and the countries that the player
+ * owns are printed. Upon the user entering a country ID, if the user eneters a number between
+ * zero and the size of the map and the corresponding country is owned by the player, the game
+ * play proceeds. If the ID selected is deemed to be invalid, then the user is warned
+ */
 
 bool GameBoard::isAttackPossible(Player &attacker, Player &defender) {
 	int countControlledCountriesArmies = 0;
