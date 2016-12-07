@@ -1103,6 +1103,25 @@ bool GameBoard::isAttackPossible(Player &attacker, Player &defender) {
 	}
 }
 
+/*
+ *
+This function checks to see if an attack is possible by an attacking country. First,
+it loops through the attacking country's controlled countries, checking to see if
+there are any countries that have an occupiedArmy count of more than 1. Once that
+loop is finished, if the count of those countries is 0, we know that an attack is not
+possible, since a country cannot attack if it only has 1 army.
+
+If that count is greater than 0, we have to look further into the situation in order to
+determine if an attack is possible. The player's controlled countries are traversed
+again, while also traversing the neighbors of all of those traversed countries as well.
+If there is ever a country that has both an occupiedArmy count greater than 1 and
+is owned by the defender, the countOpponentSurroungCountries variable is incremented.
+Once these loops are exited, check to see if the countOpponentSurroungCountries integer
+is greater than 0. If it is, an attack is possible. If not, no attack is possible since
+the attacker owns no countries that have neighbors that are owned by the opponent.
+ *
+ */
+
 bool GameBoard::isManueverPossible(Player &attacker, Player &defender) {
 	int countControlledCountriesArmies = 0;
 	int countFriendlySurroundingCountries = 0;
@@ -1133,3 +1152,17 @@ bool GameBoard::isManueverPossible(Player &attacker, Player &defender) {
 		return false;
 	}
 }
+
+/*
+ *
+the isManueverPossible function does much of the same thing that the isAttackPossible
+function does. It checks to see if any controlledCountries of the attacker have any
+countries with more than one army. If any do, further insight is required. If none do,
+no further insight is required and we know that no manuever is possible.
+
+if we have to look further into it, then again we traverse through the controlledCountries
+vector, then look through each of those countries neighbors, looking for a neighboring
+country who is owned by the attacker. If even one exists, we know a manuever is possible.
+If not, then no manuever is possible.
+ *
+ */
