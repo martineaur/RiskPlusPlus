@@ -669,7 +669,6 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 	unsigned int attackTo;
 	int attackWith;
 	int counter = 0;
-	//bool foundNeighbor = false;
 
 	cout << "Player " << attacker.getId()
 			<< ": please select a country to attack from" << endl << endl;
@@ -891,6 +890,27 @@ void GameBoard::attack(Player &attacker, Player &defender) {
 	printStatus(attacker, defender);
 }
 
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ * This function allows players to attack a country that is controlled by the enemy. Both
+ * players are sent into the function. The first is the attacker, the second is the defender.
+ * The attacker needs to first decide a  country they wish to attack from. Their choice is then
+ * checked to see if it is indeed a country they own, and that it has more than one army
+ * inside it. This is because a player can't leave his country with zero troops inside it.
+ * Once the player has selected a country to attack from, he is presented with a list of
+ * countries that neighbor it and are controlled by the enemy. The player the selects the country
+ * they wish to attack from this list. The choice is checked to ensure that the player's
+ * choice of country to attack is in line with the parameters stated before. Once attack from
+ * and attack to have been decided, the player needs to decide how many armies they want to
+ * attack with. The player is presented with the maximum amount of troops they may attack with
+ * based on how many armies are in the country they are attacking from. The players choice of
+ * number of armies to be used in the attack is then checked to ensure that it is valid. If
+ * there is two armies, they can attack with one. If there is three armies, they may attack with
+ * 2. If there is more than 3, the maximum number of troops they can attack with is 3 troops,
+ * just like in the board game. After the player has decided on how many attack they wish to
+ * attack with, the attack with function is called, based on the number of armies that are
+ * attacking. Here, random dice rolls are used to determine a winner.
+ */
+
 void GameBoard::manueverTroops(Player &player) {
 
 	unsigned int moveFrom;
@@ -1004,6 +1024,36 @@ void GameBoard::manueverTroops(Player &player) {
 		}
 }
 
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ * The above function is the algorithm called when a player wishes to maneuver troops.
+ * First, two unsigned integers are created, moveFrom and moveTo. These will store the
+ * user's input when choosing which country to move troops from and which country to move
+ * troops to respectively. An integer armiesToMove is also created to store the number of
+ * armies the user wishes to move. Finally, a boolean value foundNeighbor is also created and
+ * will be used to determine if the selected countries are neighbors.
+ *
+ * The user is then asked to select which country to move from and the countries that the player
+ * owns are printed. Upon the user entering a country ID, if the user enters a number between
+ * zero and the size of the map and the corresponding country is owned by the player, the game
+ * play proceeds. If the ID selected is deemed to be invalid, then the user is warned.
+ *
+ * Next the user can decide where to move armies to. The countries that are neighbors to the
+ * previously selected country are then printed to screen as available options, so long as the
+ * countries that border the country the player is moving from is owned by him. The user then
+ * enters the ID of the country that he wishes to move to. The input is then checked to see if
+ * it is greater than or equal to zero and less than the size of the risk map and that the
+ * corresponding country is borders the country that he wishes to move from. If all conditionals
+ * are met, then resources are moved. If any conditional fails, then the choice is deemed
+ * invalid and the user is warned.
+ *
+ * Finally, the user can choose how many troops to move. The user is then asked to enter a
+ * value that corresponds with the number of armies they wish to move. Upon entering the value
+ * the number is check to see whether moving the given number of troops would leave less
+ * than one army in the country the player wishes to move from. If so, the value is deemed
+ * invalid and the user is asked to put in another value. If all conditionals are satisfied
+ * then the troops are moved.
+ */
+
 
 void GameBoard::printStatus(Player &player1, Player &player2) {
 	cout << endl << "Player " << player1.getId() << " controls: " << endl;
@@ -1016,18 +1066,8 @@ void GameBoard::printStatus(Player &player1, Player &player2) {
 	cout << endl;
 }
 
-/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- * The above function is the algorithm called when a player wishes to maneuver troops.
- * First, two unsigned integers are created, moveFrom and moveTo. These will store the
- * user's input when choosing which country to move troops from and which country to move
- * troops to respectively. An integer armiesToMove is also created to store the number of
- * armies the user wishes to move. Finally, a boolean value foundNeighbor is also created and
- * will be used to determine if the selected countries are neighbors.
- *
- * The user is then asked to select which country to move from and the countries that the player
- * owns are printed. Upon the user entering a country ID, if the user eneters a number between
- * zero and the size of the map and the corresponding country is owned by the player, the game
- * play proceeds. If the ID selected is deemed to be invalid, then the user is warned
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ * The above function prints out each player's controlled countries
  */
 
 bool GameBoard::isAttackPossible(Player &attacker, Player &defender) {
